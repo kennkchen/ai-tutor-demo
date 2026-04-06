@@ -1065,7 +1065,14 @@ body {
 
 <script>
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+document.documentElement.style.scrollSnapType = 'none';
 window.scrollTo(0, 0);
+requestAnimationFrame(() => {
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollSnapType = 'y mandatory';
+  });
+});
 
 const slides = document.querySelectorAll('.slide');
 const dotsContainer = document.getElementById('navDots');
