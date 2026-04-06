@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>安親班的一天 — AI-Tutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400&family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f1ea;
+  --paper: #ffffff;
+  --ink: #1c1814;
+  --ink-soft: #3a3530;
+  --ink-muted: #7a7068;
+  --ink-faint: #c4b8a8;
+  --cream: #ede5d8;
+  --cream-deep: #ddd2c0;
+  --warm-glow: #faf5ee;
+
+  --red: #c93a22;
+  --red-bg: #fef0ec;
+  --red-ring: rgba(201,58,34,0.12);
+  --yellow: #b8870e;
+  --yellow-bg: #fef7e2;
+  --yellow-ring: rgba(184,135,14,0.12);
+  --green: #1a7d5a;
+  --green-bg: #e8f7f0;
+  --green-ring: rgba(26,125,90,0.12);
+  --blue: #2860b0;
+  --blue-bg: #ebf1fb;
+  --indigo: #4a40d8;
+  --indigo-bg: #eeedfb;
+
+  --shadow-screen: 0 2px 8px rgba(28,24,20,0.06), 0 12px 36px rgba(28,24,20,0.10);
+  --shadow-card: 0 1px 3px rgba(28,24,20,0.05), 0 6px 20px rgba(28,24,20,0.06);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════
+   SLIDES
+   ═══════════════════════════════════ */
+.slide {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 24px;
+  position: relative;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── SCENE HEADER ── */
+.scene-header { text-align: center; }
+
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 7px 20px;
+  border-radius: 100px;
+  background: var(--ink);
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.scene-title {
+  font-family: 'Fraunces', 'Noto Sans TC', serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.scene-desc {
+  font-size: 17px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+/* ── SCREEN MOCKUP ── */
+.screen-mock {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-screen);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.screen-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, #fafaf8 0%, #f4f1ec 100%);
+  border-bottom: 1px solid var(--cream);
+}
+.screen-dots { display: flex; gap: 5px; }
+.screen-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cream-deep);
+}
+.screen-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.3px;
+}
+
+.screen-body { padding: 20px; }
+
+/* ── OVERVIEW BAR ── */
+.overview-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ov-chip {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--warm-glow);
+  color: var(--ink-soft);
+  border: 1px solid var(--cream);
+}
+.ov-chip strong { font-weight: 700; }
+
+/* ── STUDENT CARDS ── */
+.student-card {
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-left: 5px solid;
+  position: relative;
+}
+.student-card:last-child { margin-bottom: 0; }
+.student-card.red    { border-left-color: var(--red);    background: var(--red-bg); }
+.student-card.yellow { border-left-color: var(--yellow); background: var(--yellow-bg); }
+.student-card.green  { border-left-color: var(--green);  background: var(--green-bg); }
+
+.sc-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sc-detail {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.sc-suggest {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--cream-deep);
+}
+.sc-suggest strong { color: var(--ink-soft); }
+
+.pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.pill-red    { background: var(--red-bg);    color: var(--red);    box-shadow: 0 0 0 1px var(--red-ring); }
+.pill-yellow { background: var(--yellow-bg); color: var(--yellow); box-shadow: 0 0 0 1px var(--yellow-ring); }
+.pill-green  { background: var(--green-bg);  color: var(--green);  box-shadow: 0 0 0 1px var(--green-ring); }
+
+/* ── HIGHLIGHT ── */
+.hl {
+  color: var(--ink);
+  font-weight: 700;
+  background: linear-gradient(180deg, transparent 58%, rgba(240,192,64,0.35) 58%);
+  padding: 0 2px;
+}
+.hl-green {
+  color: var(--green);
+  font-weight: 700;
+}
+.hl-red {
+  color: var(--red);
+  font-weight: 700;
+}
+.hl-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 1.05em;
+}
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.kpi-box {
+  background: var(--warm-glow);
+  border: 1px solid var(--cream);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: center;
+}
+.kpi-val {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.kpi-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+.kpi-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+.kpi-up { color: var(--green); }
+
+/* ── INSIGHT BOX ── */
+.insight-box {
+  background: linear-gradient(135deg, var(--blue-bg) 0%, var(--indigo-bg) 100%);
+  border-left: 4px solid var(--indigo);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+.insight-box .ib-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--indigo);
+  margin-bottom: 8px;
+}
+.insight-box .ib-item {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 4px;
+}
+.insight-box .ib-item:last-child { margin-bottom: 0; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--indigo) 0%, #3730a3 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Noto Sans TC', sans-serif;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(80,70,229,0.3);
+  letter-spacing: 0.5px;
+}
+.btn-link {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 10px;
+  text-decoration: underline;
+  text-decoration-color: var(--cream-deep);
+  text-underline-offset: 3px;
+}
+
+/* ── LINE MESSAGE ── */
+.line-chat {
+  background: linear-gradient(180deg, #7bb833 0%, #6aaa28 100%);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-screen);
+}
+.line-sender {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.line-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.line-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.line-bubble {
+  background: #fff;
+  border-radius: 2px 18px 18px 18px;
+  padding: 18px 20px;
+  margin-left: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.line-bubble p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 6px;
+}
+.line-bubble p:last-child { margin-bottom: 0; }
+.line-bubble .lb-highlight { font-weight: 700; color: var(--ink); }
+
+/* ── TASK CARD ── */
+.task-card {
+  background: linear-gradient(135deg, var(--indigo-bg) 0%, #f0ecfb 100%);
+  border: 2px solid var(--indigo);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.task-card::after {
+  content: '🎯';
+  position: absolute;
+  top: 12px; right: 16px;
+  font-size: 28px;
+  opacity: 0.25;
+}
+.task-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--indigo);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.task-name {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.task-meta {
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+/* ── STATUS ROW ── */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-xs);
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  background: var(--warm-glow);
+  border: 1px solid var(--cream);
+}
+.status-row:last-child { margin-bottom: 0; }
+.status-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-dot.green  { background: var(--green); box-shadow: 0 0 0 3px var(--green-ring); }
+.status-dot.yellow { background: var(--yellow); box-shadow: 0 0 0 3px var(--yellow-ring); }
+.status-dot.red    { background: var(--red); box-shadow: 0 0 0 3px var(--red-ring); }
+.status-name { font-weight: 700; min-width: 48px; }
+.status-subject { color: var(--ink-muted); }
+.status-pill {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.status-pill.done { background: var(--green-bg); color: var(--green); }
+.status-pill.wip  { background: var(--yellow-bg); color: var(--yellow); }
+.status-pill.stuck { background: var(--red-bg); color: var(--red); }
+
+/* ── HOMEWORK LIST ── */
+.hw-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hw-list li {
+  font-size: 15px;
+  color: var(--ink-soft);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cream);
+  line-height: 1.6;
+}
+.hw-list li:last-child { border-bottom: none; }
+
+/* ── FOOTER NOTE ── */
+.screen-footer {
+  padding: 12px 20px;
+  background: var(--warm-glow);
+  border-top: 1px solid var(--cream);
+  font-size: 14px;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════
+   COVER
+   ═══════════════════════════════════ */
+.cover {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,146,18,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(74,64,216,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 80%);
+}
+.cover .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 28px;
+}
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.cover-title {
+  font-family: 'Fraunces', serif;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.cover-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, #f0c040 0%, #e8883d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cover-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.65;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.cover-roles {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.role-chip {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.55);
+}
+
+/* ═══════════════════════════════════
+   CLOSING
+   ═══════════════════════════════════ */
+.closing {
+  background: linear-gradient(160deg, var(--ink) 0%, #2a2520 100%);
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(74,64,216,0.14) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 30%, rgba(196,146,18,0.1) 0%, transparent 50%);
+}
+.closing .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 24px;
+}
+.closing-title {
+  font-family: 'Fraunces', serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.closing-sub {
+  font-size: 19px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+}
+.closing-sub strong { color: #fff; }
+.closing-cta {
+  display: inline-block;
+  padding: 18px 36px;
+  background: linear-gradient(135deg, #f0c040, #e8883d);
+  border-radius: 100px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 28px rgba(232,136,61,0.4);
+  line-height: 1.5;
+}
+.closing-note {
+  font-size: 15px;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ═══════════════════════════════════
+   SCROLL HINT
+   ═══════════════════════════════════ */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+.scroll-hint span { font-size: 13px; opacity: 0.45; color: #fff; }
+.scroll-hint .arrow { font-size: 20px; opacity: 0.35; color: #fff; }
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.5; transform: translateX(-50%) translateY(5px); }
+}
+
+/* ═══════════════════════════════════
+   NAV DOTS
+   ═══════════════════════════════════ */
+.nav-dots {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: 0.3;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-dot.active {
+  opacity: 1;
+  background: var(--ink);
+  transform: scale(1.5);
+}
+
+/* ═══════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide-inner > * {
+  opacity: 0;
+  animation: fade-up 0.6s ease-out forwards;
+}
+.slide-inner > *:nth-child(1) { animation-delay: 0.1s; }
+.slide-inner > *:nth-child(2) { animation-delay: 0.25s; }
+.slide-inner > *:nth-child(3) { animation-delay: 0.4s; }
+
+.slide:not(.in-view) .slide-inner > * { opacity: 0; animation: none; }
+.slide.in-view .slide-inner > * { animation: fade-up 0.6s ease-out forwards; }
+
+/* ═══════════════════════════════════
+   DESKTOP
+   ═══════════════════════════════════ */
+@media (min-width: 768px) {
+  .slide-inner { max-width: 560px; }
+  .cover-title { font-size: 56px; }
+  .scene-title { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ═══ SLIDE 0 — COVER ═══ -->
+<section class="slide cover" id="s0">
+  <div class="slide-inner">
+    <div class="cover-eyebrow">AI-Tutor 情境展示</div>
+    <h1 class="cover-title"><em>安親班的一天</em></h1>
+    <p class="cover-sub">作業盯得住、進步看得見、家長最安心</p>
+    <div class="cover-roles">
+      <span class="role-chip">👨‍🏫 老師</span>
+      <span class="role-chip">📖 學生</span>
+      <span class="role-chip">👩‍👦 家長</span>
+      <span class="role-chip">🏫 班主任</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>往下滑</span>
+    <span class="arrow">&#8595;</span>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 1 — 16:00 學生到班 ═══ -->
+<section class="slide" id="s1">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">16 : 00</div>
+      <h2 class="scene-title">學生到班</h2>
+      <p class="scene-desc">小朋友放學到安親班<br>老師登記到班 + 查看學校作業</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">今日到班總覽</span>
+      </div>
+      <div class="screen-body">
+        <div class="overview-bar">
+          <span class="ov-chip"><span class="hl-green">已到</span> <strong><span class="hl-num">12</span> / 15 人</strong> ✅</span>
+          <span class="ov-chip" style="border-color:var(--red);color:var(--red)"><strong><span class="hl-num">3</span></strong> 人未到</span>
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:14px;font-weight:700;color:var(--ink-muted);margin-bottom:8px;letter-spacing:0.5px">今日學校作業</div>
+          <ul class="hw-list">
+            <li><span class="hl">數學</span>：分數加減 第 <span class="hl-num">45</span> 頁</li>
+            <li><span class="hl">國語</span>：造句 <span class="hl-num">5</span> 題 + 課文朗讀</li>
+            <li><span class="hl">自然</span>：觀察紀錄表</li>
+          </ul>
+        </div>
+      </div>
+      <div class="screen-footer"><span class="hl-red">3</span> 位未到學生已自動通知家長</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 2 — 16:30 寫作業時段 ═══ -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">16 : 30</div>
+      <h2 class="scene-title">寫作業時段</h2>
+      <p class="scene-desc">老師巡場，即時看板顯示每個人的狀態<br><span class="hl">不用一個一個問「寫完沒」</span></p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">學生狀態看板</span>
+      </div>
+      <div class="screen-body">
+        <div class="overview-bar">
+          <span class="ov-chip">🟢 寫完 <strong><span class="hl-num">5</span> 人</strong></span>
+          <span class="ov-chip">🟡 進行中 <strong><span class="hl-num">6</span> 人</strong></span>
+          <span class="ov-chip" style="border-color:var(--red);color:var(--red)">🔴 卡住 <strong><span class="hl-num">1</span> 人</strong></span>
+        </div>
+        <div class="status-row" style="background:var(--red-bg);border-color:var(--red-ring)">
+          <span class="status-dot red"></span>
+          <span class="status-name">小明</span>
+          <span class="status-subject"><span class="hl">數學</span>第 3 題舉手求助</span>
+          <span class="status-pill stuck">卡住</span>
+        </div>
+        <div class="status-row">
+          <span class="status-dot yellow"></span>
+          <span class="status-name">小華</span>
+          <span class="status-subject">國語・造句</span>
+          <span class="status-pill wip">進行中</span>
+        </div>
+        <div class="status-row">
+          <span class="status-dot yellow"></span>
+          <span class="status-name">小美</span>
+          <span class="status-subject">數學・分數加減</span>
+          <span class="status-pill wip">進行中</span>
+        </div>
+        <div class="status-row">
+          <span class="status-dot green"></span>
+          <span class="status-name">小安</span>
+          <span class="status-subject">全部完成</span>
+          <span class="status-pill done">已開始加強</span>
+        </div>
+        <div class="status-row">
+          <span class="status-dot green"></span>
+          <span class="status-name">小恩</span>
+          <span class="status-subject">全部完成</span>
+          <span class="status-pill done">已開始加強</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 3 — 17:30 寫完作業・開始加強 ═══ -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">17 : 30</div>
+      <h2 class="scene-title">寫完作業・開始加強</h2>
+      <p class="scene-desc">寫完作業的學生做 AI 推薦練習<br>針對今天作業的弱點加強</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">小明的加強任務</span>
+      </div>
+      <div class="screen-body">
+        <div class="student-card yellow" style="margin-bottom:14px">
+          <div class="sc-name">今天數學作業「<span class="hl">分數加減</span>」錯 <span class="hl-red">2</span> 題</div>
+          <div class="sc-detail">AI 自動出 <span class="hl-num">5</span> 題同類型練習</div>
+        </div>
+        <div class="task-card">
+          <div class="task-tag">弱點加強</div>
+          <div class="task-name">分數加減特訓</div>
+          <div class="task-meta">
+            <span class="hl-num">5</span> 題 ・ 難度：<span class="hl">基礎</span>（配合小明程度）・ 預估 <span class="hl-num">10</span> 分鐘
+          </div>
+        </div>
+        <div style="margin-top:14px;padding:12px 16px;background:var(--green-bg);border-radius:var(--radius-xs);border-left:4px solid var(--green)">
+          <div style="font-size:15px;color:var(--ink-soft);line-height:1.6">不只寫完作業，還<span class="hl">針對錯的地方多練</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 4 — 18:05 家長接送・收報告 ═══ -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">18 : 05</div>
+      <h2 class="scene-title">家長接送・收報告</h2>
+      <p class="scene-desc">家長來接小孩，走到車上就收到 LINE 通知</p>
+    </div>
+    <div class="line-chat">
+      <div class="line-sender">
+        <div class="line-avatar">☀️</div>
+        <div class="line-name">陽光安親班</div>
+      </div>
+      <div class="line-bubble">
+        <p><span class="lb-highlight">小明媽媽您好！今日報告 📋</span></p>
+        <p>🕓 到班 <span class="hl-num">16:05</span> <span class="hl-green">✅</span></p>
+        <p>📝 學校作業 <span class="hl-num">17:20</span> 完成 <span class="hl-green">✅</span></p>
+        <p>&emsp;&ensp;數學錯 <span class="hl-red">2</span> 題，已訂正 <span class="hl-green">✅</span></p>
+        <p>&emsp;&ensp;<span class="hl">國語</span>造句、<span class="hl">自然</span>觀察 全部完成 <span class="hl-green">✅</span></p>
+        <p>📊 加強練習：<span class="hl">分數加減</span> <span class="hl-num">5</span> 題全對 💯</p>
+        <p>⭐ 今日表現：專注度 ⭐⭐⭐⭐</p>
+        <p>💬 老師備註：小明今天很專心，<span class="hl">分數加減進步很多</span>！</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 5 — 隔天 班主任看全局 ═══ -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge" style="background:var(--indigo);color:#fff">隔天</div>
+      <h2 class="scene-title">班主任看全局</h2>
+      <p class="scene-desc">您打開系統，一杯咖啡的時間掌握全局</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">班主任儀表板</span>
+      </div>
+      <div class="screen-body">
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-val">96%</div>
+            <div class="kpi-label">本週到班率</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">94%</div>
+            <div class="kpi-label">作業完成率</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">78% <span class="kpi-delta kpi-up">↑5%</span></div>
+            <div class="kpi-label">加強練習正確率</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">10</div>
+            <div class="kpi-label">本月全勤人數</div>
+          </div>
+        </div>
+        <div style="font-size:14px;font-weight:700;color:var(--ink-muted);margin-bottom:8px">⚠️ 需關注</div>
+        <div class="student-card red" style="margin-bottom:8px">
+          <div class="sc-name"><span class="pill pill-red">注意</span> <span class="hl-red">2</span> 位學生連續遲到</div>
+        </div>
+        <div class="student-card yellow" style="margin-bottom:14px">
+          <div class="sc-name"><span class="pill pill-yellow">留意</span> <span class="hl-red">1</span> 位作業完成率低於 <span class="hl-red">70%</span></div>
+        </div>
+        <div class="insight-box">
+          <div class="ib-title">💡 AI 營運洞察</div>
+          <div class="ib-item">📊 作業完成率 <span class="hl-num">94%</span>，<span class="hl-green">家長滿意度高</span></div>
+          <div class="ib-item">⚠️ 小華連續 <span class="hl-red">3 天</span>數學作業錯超過 <span class="hl-red">3 題</span>，建議<span class="hl">約家長聊聊</span></div>
+          <div class="ib-item">🏆 本月全勤獎 <span class="hl-num">10</span> 人，可考慮<span class="hl">頒獎鼓勵</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 6 — BENEFITS ═══ -->
+<section class="slide" id="s6">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <h2 class="scene-title">每個人都受益</h2>
+      <p class="scene-desc">AI-Tutor 幫四個角色各解決核心問題</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="student-card" style="border-left-color:var(--blue);background:var(--blue-bg)">
+        <div class="sc-name" style="font-size:17px">👨‍🏫 老師</div>
+        <div class="sc-detail">不用一個一個問「寫完沒」，<span class="hl">看板一目瞭然</span><br>寫完作業的孩子<span class="hl">自動有事做</span>，不會吵鬧</div>
+      </div>
+      <div class="student-card" style="border-left-color:var(--indigo);background:var(--indigo-bg)">
+        <div class="sc-name" style="font-size:17px">📖 學生</div>
+        <div class="sc-detail">作業寫錯的地方馬上有<span class="hl">類似題可以訂正</span><br>寫完作業不是發呆，有好玩的練習</div>
+      </div>
+      <div class="student-card" style="border-left-color:var(--green);background:var(--green-bg)">
+        <div class="sc-name" style="font-size:17px">👩‍👦 家長</div>
+        <div class="sc-detail">接小孩時就收到今日報告：<span class="hl">作業完成沒、哪裡不會、乖不乖</span><br>不用再問「今天作業寫完了嗎」</div>
+      </div>
+      <div class="student-card" style="border-left-color:var(--yellow);background:var(--yellow-bg)">
+        <div class="sc-name" style="font-size:17px">🏫 班主任（您）</div>
+        <div class="sc-detail">報告自動發、作業進度自動追蹤，<span class="hl">人力省下來</span><br>家長覺得「這間安親班很用心」→ <span class="hl-green">續報 + 轉介紹</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 7 — CLOSING ═══ -->
+<section class="slide closing" id="s7">
+  <div class="slide-inner">
+    <div class="cover-eyebrow" style="color:var(--ink-faint)">這就是</div>
+    <h2 class="closing-title">AI-Tutor</h2>
+    <p class="closing-sub">
+      作業盯得住<br>
+      弱點補得到<br>
+      家長即時知<br>
+      <strong>您省心省力</strong>
+    </p>
+    <div>
+      <span class="closing-cta">免費試用一個月<br>挑一個班試試看？</span>
+    </div>
+    <p class="closing-note">老師照常帶班，系統在背後幫忙</p>
+  </div>
+</section>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.getElementById('navDots');
+
+slides.forEach((_, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'nav-dot';
+  btn.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+  dotsContainer.appendChild(btn);
+});
+
+const dots = dotsContainer.querySelectorAll('.nav-dot');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      const idx = [...slides].indexOf(entry.target);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  });
+}, { threshold: 0.5 });
+
+slides.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

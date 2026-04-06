@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>補習班的一天 — AI-Tutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400&family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f1ea;
+  --paper: #ffffff;
+  --ink: #1c1814;
+  --ink-soft: #3a3530;
+  --ink-muted: #7a7068;
+  --ink-faint: #c4b8a8;
+  --cream: #ede5d8;
+  --cream-deep: #ddd2c0;
+  --warm-glow: #faf5ee;
+
+  --red: #c93a22;
+  --red-bg: #fef0ec;
+  --red-ring: rgba(201,58,34,0.12);
+  --yellow: #b8870e;
+  --yellow-bg: #fef7e2;
+  --yellow-ring: rgba(184,135,14,0.12);
+  --green: #1a7d5a;
+  --green-bg: #e8f7f0;
+  --green-ring: rgba(26,125,90,0.12);
+  --blue: #2860b0;
+  --blue-bg: #ebf1fb;
+  --indigo: #4a40d8;
+  --indigo-bg: #eeedfb;
+
+  --shadow-screen: 0 2px 8px rgba(28,24,20,0.06), 0 12px 36px rgba(28,24,20,0.10);
+  --shadow-card: 0 1px 3px rgba(28,24,20,0.05), 0 6px 20px rgba(28,24,20,0.06);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════
+   SLIDES
+   ═══════════════════════════════════ */
+.slide {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 24px;
+  position: relative;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── SCENE HEADER ── */
+.scene-header { text-align: center; }
+
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 7px 20px;
+  border-radius: 100px;
+  background: var(--ink);
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.scene-title {
+  font-family: 'Fraunces', 'Noto Sans TC', serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.scene-desc {
+  font-size: 17px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+/* ── SCREEN MOCKUP ── */
+.screen-mock {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-screen);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.screen-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, #fafaf8 0%, #f4f1ec 100%);
+  border-bottom: 1px solid var(--cream);
+}
+.screen-dots { display: flex; gap: 5px; }
+.screen-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cream-deep);
+}
+.screen-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.3px;
+}
+
+.screen-body { padding: 20px; }
+
+/* ── OVERVIEW BAR ── */
+.overview-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ov-chip {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--warm-glow);
+  color: var(--ink-soft);
+  border: 1px solid var(--cream);
+}
+.ov-chip strong { font-weight: 700; }
+
+/* ── STUDENT CARDS ── */
+.student-card {
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-left: 5px solid;
+  position: relative;
+}
+.student-card:last-child { margin-bottom: 0; }
+.student-card.red    { border-left-color: var(--red);    background: var(--red-bg); }
+.student-card.yellow { border-left-color: var(--yellow); background: var(--yellow-bg); }
+.student-card.green  { border-left-color: var(--green);  background: var(--green-bg); }
+
+.sc-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sc-detail {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.sc-suggest {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--cream-deep);
+}
+.sc-suggest strong { color: var(--ink-soft); }
+
+.pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.pill-red    { background: var(--red-bg);    color: var(--red);    box-shadow: 0 0 0 1px var(--red-ring); }
+.pill-yellow { background: var(--yellow-bg); color: var(--yellow); box-shadow: 0 0 0 1px var(--yellow-ring); }
+.pill-green  { background: var(--green-bg);  color: var(--green);  box-shadow: 0 0 0 1px var(--green-ring); }
+
+/* ── HIGHLIGHT ── */
+.hl {
+  color: var(--ink);
+  font-weight: 700;
+  background: linear-gradient(180deg, transparent 58%, rgba(240,192,64,0.35) 58%);
+  padding: 0 2px;
+}
+.hl-green {
+  color: var(--green);
+  font-weight: 700;
+}
+.hl-red {
+  color: var(--red);
+  font-weight: 700;
+}
+.hl-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 1.05em;
+}
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.kpi-box {
+  background: var(--warm-glow);
+  border: 1px solid var(--cream);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: center;
+}
+.kpi-val {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.kpi-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+.kpi-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+.kpi-up { color: var(--green); }
+
+/* ── INSIGHT BOX ── */
+.insight-box {
+  background: linear-gradient(135deg, var(--blue-bg) 0%, var(--indigo-bg) 100%);
+  border-left: 4px solid var(--indigo);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+.insight-box .ib-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--indigo);
+  margin-bottom: 8px;
+}
+.insight-box .ib-item {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 4px;
+}
+.insight-box .ib-item:last-child { margin-bottom: 0; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--indigo) 0%, #3730a3 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Noto Sans TC', sans-serif;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(80,70,229,0.3);
+  letter-spacing: 0.5px;
+}
+.btn-link {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 10px;
+  text-decoration: underline;
+  text-decoration-color: var(--cream-deep);
+  text-underline-offset: 3px;
+}
+
+/* ── LINE MESSAGE ── */
+.line-chat {
+  background: linear-gradient(180deg, #7bb833 0%, #6aaa28 100%);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-screen);
+}
+.line-sender {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.line-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.line-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.line-bubble {
+  background: #fff;
+  border-radius: 2px 18px 18px 18px;
+  padding: 18px 20px;
+  margin-left: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.line-bubble p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 6px;
+}
+.line-bubble p:last-child { margin-bottom: 0; }
+.line-bubble .lb-highlight { font-weight: 700; color: var(--ink); }
+
+/* ── MINI CHART ── */
+.mini-chart {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+.mini-chart-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ── RADAR ── */
+.radar-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+.radar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.radar-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.radar-dot.ok   { background: var(--green); box-shadow: 0 0 0 3px var(--green-ring); }
+.radar-dot.warn { background: var(--yellow); box-shadow: 0 0 0 3px var(--yellow-ring); }
+
+/* ── ALERT CARD ── */
+.alert-card {
+  background: #fffbf5;
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.alert-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--yellow), var(--red));
+}
+.alert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  background: var(--red-bg);
+  border-radius: 6px;
+}
+.alert-student {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.alert-meta {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+.alert-question {
+  background: var(--warm-glow);
+  border-radius: var(--radius-xs);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  color: var(--ink-soft);
+  text-align: center;
+  letter-spacing: 0.5px;
+  border: 1px solid var(--cream);
+}
+.alert-suggest {
+  background: var(--blue-bg);
+  border-radius: var(--radius-xs);
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(40,96,176,0.1);
+}
+.alert-suggest .as-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+.alert-suggest p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.alert-btns { display: flex; gap: 10px; }
+.alert-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-xs);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+}
+.alert-btn-primary { background: var(--blue); color: #fff; }
+.alert-btn-secondary { background: var(--warm-glow); border: 1px solid var(--cream); color: var(--ink-muted); }
+
+/* ── TASK CARD ── */
+.task-card {
+  background: linear-gradient(135deg, var(--indigo-bg) 0%, #f0ecfb 100%);
+  border: 2px solid var(--indigo);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.task-card::after {
+  content: '🎯';
+  position: absolute;
+  top: 12px; right: 16px;
+  font-size: 28px;
+  opacity: 0.25;
+}
+.task-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--indigo);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.task-name {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.task-meta {
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+/* ── STUDENT PROFILE ── */
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.profile-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--yellow) 0%, #e8a912 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(196,146,18,0.3);
+}
+.profile-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.profile-stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  align-items: center;
+}
+.profile-stat {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.profile-stat strong { color: var(--ink-soft); }
+
+/* ═══════════════════════════════════
+   COVER
+   ═══════════════════════════════════ */
+.cover {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,146,18,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(74,64,216,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 80%);
+}
+.cover .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 28px;
+}
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.cover-title {
+  font-family: 'Fraunces', serif;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.cover-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, #f0c040 0%, #e8883d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cover-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.65;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.cover-roles {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.role-chip {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.55);
+}
+
+/* ═══════════════════════════════════
+   CLOSING
+   ═══════════════════════════════════ */
+.closing {
+  background: linear-gradient(160deg, var(--ink) 0%, #2a2520 100%);
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(74,64,216,0.14) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 30%, rgba(196,146,18,0.1) 0%, transparent 50%);
+}
+.closing .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 24px;
+}
+.closing-title {
+  font-family: 'Fraunces', serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.closing-sub {
+  font-size: 19px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+}
+.closing-sub strong { color: #fff; }
+.closing-cta {
+  display: inline-block;
+  padding: 18px 36px;
+  background: linear-gradient(135deg, #f0c040, #e8883d);
+  border-radius: 100px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 28px rgba(232,136,61,0.4);
+  line-height: 1.5;
+}
+.closing-note {
+  font-size: 15px;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ═══════════════════════════════════
+   SCROLL HINT
+   ═══════════════════════════════════ */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+.scroll-hint span { font-size: 13px; opacity: 0.45; color: #fff; }
+.scroll-hint .arrow { font-size: 20px; opacity: 0.35; color: #fff; }
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.5; transform: translateX(-50%) translateY(5px); }
+}
+
+/* ═══════════════════════════════════
+   NAV DOTS
+   ═══════════════════════════════════ */
+.nav-dots {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: 0.3;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-dot.active {
+  opacity: 1;
+  background: var(--ink);
+  transform: scale(1.5);
+}
+
+/* ═══════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide-inner > * {
+  opacity: 0;
+  animation: fade-up 0.6s ease-out forwards;
+}
+.slide-inner > *:nth-child(1) { animation-delay: 0.1s; }
+.slide-inner > *:nth-child(2) { animation-delay: 0.25s; }
+.slide-inner > *:nth-child(3) { animation-delay: 0.4s; }
+
+.slide:not(.in-view) .slide-inner > * { opacity: 0; animation: none; }
+.slide.in-view .slide-inner > * { animation: fade-up 0.6s ease-out forwards; }
+
+/* ═══════════════════════════════════
+   DESKTOP
+   ═══════════════════════════════════ */
+@media (min-width: 768px) {
+  .slide-inner { max-width: 560px; }
+  .cover-title { font-size: 56px; }
+  .scene-title { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ═══ SLIDE 0 — COVER ═══ -->
+<section class="slide cover" id="s0">
+  <div class="slide-inner">
+    <div class="cover-eyebrow">AI-Tutor 情境展示</div>
+    <h1 class="cover-title"><em>補習班的一天</em></h1>
+    <p class="cover-sub">用一條故事線，看系統怎麼幫<br>老師、學生、家長、和您</p>
+    <div class="cover-roles">
+      <span class="role-chip">👨‍🏫 老師</span>
+      <span class="role-chip">📖 學生</span>
+      <span class="role-chip">👩‍👦 家長</span>
+      <span class="role-chip">🏫 班主任</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>往下滑</span>
+    <span class="arrow">&#8595;</span>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 1 — 15:00 ═══ -->
+<section class="slide" id="s1">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">15 : 00</div>
+      <h2 class="scene-title">老師到班</h2>
+      <p class="scene-desc">老師小陳打開平板，看到今日教學摘要<br>上課前就知道每個學生的狀況</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">老師工作台 — 今日摘要</span>
+      </div>
+      <div class="screen-body">
+        <div class="overview-bar">
+          <span class="ov-chip">今日 <strong>8</strong> 位學生</span>
+          <span class="ov-chip" style="border-color:var(--red);color:var(--red)"><strong>2</strong> 位需關注</span>
+        </div>
+        <div class="student-card red">
+          <div class="sc-name"><span class="pill pill-red">需關注</span> 王小明</div>
+          <div class="sc-detail"><span class="hl">二次方程式</span>連錯 <span class="hl-num">3</span> 題 — <span class="hl">移項法則</span>薄弱</div>
+          <div class="sc-suggest"><strong>建議：</strong>先用<span class="hl">圖解引導觀念</span>，再練移項</div>
+        </div>
+        <div class="student-card yellow">
+          <div class="sc-name"><span class="pill pill-yellow">留意</span> 李小華</div>
+          <div class="sc-detail"><span class="hl">幾何證明</span>猶豫時間過長</div>
+          <div class="sc-suggest"><strong>建議：</strong>給予<span class="hl">提示卡</span>降低焦慮</div>
+        </div>
+        <div class="student-card green">
+          <div class="sc-name"><span class="pill pill-green">正常</span> 其餘 6 位</div>
+          <div class="sc-detail">進度正常，<span class="hl">螺旋混合練習</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 2 — 16:00 ═══ -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">16 : 00</div>
+      <h2 class="scene-title">學生到班</h2>
+      <p class="scene-desc">王小明用平板登入<br>AI 已為他量身打造今天的任務</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">學生大廳</span>
+      </div>
+      <div class="screen-body">
+        <div class="profile-row">
+          <div class="profile-avatar">明</div>
+          <div class="profile-info" style="flex:1">
+            <div class="profile-name">王小明</div>
+            <div class="profile-stats">
+              <span class="profile-stat"><span class="pill pill-yellow">學習指數 62</span></span>
+              <span class="profile-stat">連續登入 <strong>12 天</strong> 🔥</span>
+            </div>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-tag">弱點攻克</div>
+          <div class="task-name">二次方程式突破戰</div>
+          <div class="task-meta"><span class="hl-num">5</span> 題 ・ 預估 <span class="hl-num">15</span> 分鐘</div>
+        </div>
+        <div class="radar-row">
+          <div class="radar-item"><span class="radar-dot ok"></span> 一元一次方程式</div>
+          <div class="radar-item"><span class="radar-dot ok"></span> 二元一次方程式</div>
+          <div class="radar-item"><span class="radar-dot warn"></span> 二次方程式</div>
+          <div class="radar-item"><span class="radar-dot ok"></span> 幾何基礎</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 3 — 17:30 ═══ -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">17 : 30</div>
+      <h2 class="scene-title">老師即時介入</h2>
+      <p class="scene-desc">小陳的平板跳出提醒<br>小明卡關超過 5 分鐘</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">老師工作台 — 即時監控</span>
+      </div>
+      <div class="screen-body">
+        <div class="alert-card">
+          <div class="alert-badge">⚠️ 卡關警示</div>
+          <div class="alert-student">王小明</div>
+          <div class="alert-meta">第 <span class="hl-num">3</span> 題 ・ 已用時 <span class="hl-red">5 分 12 秒</span></div>
+          <div class="alert-question">2x² − 5x + 3 = 0</div>
+          <div class="alert-suggest">
+            <div class="as-label">💡 AI 教學建議</div>
+            <p>學生可能混淆<span class="hl">因式分解</span>與<span class="hl">公式解</span>。<br>建議先問：<em>「你覺得這題能不能用<span class="hl">十字交乘</span>？」</em></p>
+          </div>
+          <div class="alert-btns">
+            <button class="alert-btn alert-btn-primary">✓ 已前往協助</button>
+            <button class="alert-btn alert-btn-secondary">稍後處理</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 4 — 18:00 ═══ -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">18 : 00</div>
+      <h2 class="scene-title">下課・一鍵發報告</h2>
+      <p class="scene-desc">班主任在櫃檯，學生陸續離班<br>系統已備好所有家長報告</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">班主任 — 離班結算</span>
+      </div>
+      <div class="screen-body">
+        <div class="overview-bar">
+          <span class="ov-chip">今日完課 <strong>8 / 8</strong> ✅</span>
+          <span class="ov-chip">報告就緒 <strong>8</strong> 份</span>
+        </div>
+        <div class="student-card green">
+          <div class="sc-name">王小明</div>
+          <div class="sc-detail">今天突破<span class="hl">移項法則</span>！正確率從 <span class="hl-red">40%</span> → <span class="hl-green">75%</span> 📈</div>
+        </div>
+        <div class="student-card yellow">
+          <div class="sc-name">李小華</div>
+          <div class="sc-detail"><span class="hl">幾何</span>需持續加強，已安排<span class="hl">降級練習</span></div>
+        </div>
+        <button class="btn-primary" style="margin-top:14px">📤&ensp;一鍵發送所有報告</button>
+        <span class="btn-link">或逐一預覽修改</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 5 — 20:00 ═══ -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">20 : 00</div>
+      <h2 class="scene-title">家長收報告</h2>
+      <p class="scene-desc">小明媽媽吃完飯，打開 LINE 看到通知</p>
+    </div>
+    <div class="line-chat">
+      <div class="line-sender">
+        <div class="line-avatar">📚</div>
+        <div class="line-name">陳老師的數學教室</div>
+      </div>
+      <div class="line-bubble">
+        <p>小明媽媽您好！今天小明表現很棒 👍</p>
+        <p><span class="lb-highlight">✅ 突破：</span>終於搞懂了<span class="hl">二次方程式的移項法則</span>！</p>
+        <p><span class="lb-highlight">📊 正確率：</span><span class="hl-green">75%</span>（上週 <span class="hl-red">40%</span> → 本週 <span class="hl-green">75%</span>）</p>
+        <p><span class="lb-highlight">🟢 學習燈號：</span><span class="hl-red">黃</span>→<span class="hl-green">綠</span>，持續進步中</p>
+        <p><span class="lb-highlight">💡 回家建議：</span>可以問他「什麼時候用<span class="hl">十字交乘</span>？什麼時候用<span class="hl">公式解</span>？」</p>
+        <div class="mini-chart">
+          <div class="mini-chart-label">近 4 週正確率趨勢</div>
+          <svg width="100%" height="56" viewBox="0 0 300 56" fill="none">
+            <line x1="0" y1="52" x2="300" y2="52" stroke="#eee" stroke-width="1"/>
+            <line x1="0" y1="28" x2="300" y2="28" stroke="#eee" stroke-width="1" stroke-dasharray="4"/>
+            <polyline points="24,38 104,36 184,34 276,12" stroke="#1a7d5a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="38" r="4" fill="#1a7d5a"/>
+            <circle cx="104" cy="36" r="4" fill="#1a7d5a"/>
+            <circle cx="184" cy="34" r="4" fill="#b8870e"/>
+            <circle cx="276" cy="12" r="5" fill="#1a7d5a" stroke="#fff" stroke-width="2.5"/>
+            <text x="14" y="50" font-size="11" fill="#aaa" font-family="Noto Sans TC">第1週</text>
+            <text x="88" y="50" font-size="11" fill="#aaa" font-family="Noto Sans TC">第2週</text>
+            <text x="168" y="50" font-size="11" fill="#aaa" font-family="Noto Sans TC">第3週</text>
+            <text x="256" y="50" font-size="11" fill="#888" font-weight="bold" font-family="Noto Sans TC">第4週</text>
+            <text x="260" y="10" font-size="12" fill="#1a7d5a" font-weight="bold" font-family="Noto Sans TC">75%</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 6 — 09:00 ═══ -->
+<section class="slide" id="s6">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge" style="background:var(--indigo);color:#fff">隔天 09 : 00</div>
+      <h2 class="scene-title">班主任看全局</h2>
+      <p class="scene-desc">您打開系統，一杯咖啡的時間掌握全局</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">班主任儀表板</span>
+      </div>
+      <div class="screen-body">
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-val">23</div>
+            <div class="kpi-label">本週活躍學生</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">71 <span class="kpi-delta kpi-up">↑3</span></div>
+            <div class="kpi-label">平均學習指數</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">89%</div>
+            <div class="kpi-label">報告開啟率</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">95%</div>
+            <div class="kpi-label">本月續班率</div>
+          </div>
+        </div>
+        <div class="student-card red" style="margin-bottom:8px">
+          <div class="sc-name"><span class="pill pill-red">需關注</span> 張小華</div>
+          <div class="sc-detail">學習指數 <span class="hl-red">48</span>，連續 <span class="hl-red">3 週下滑</span></div>
+        </div>
+        <div class="student-card yellow" style="margin-bottom:14px">
+          <div class="sc-name"><span class="pill pill-yellow">留意</span> 陳小美</div>
+          <div class="sc-detail">已 <span class="hl-red">3 天未登入</span></div>
+        </div>
+        <div class="insight-box">
+          <div class="ib-title">💡 AI 營運洞察</div>
+          <div class="ib-item">📊 本週學習指數平均 <span class="hl-num">71</span> 分，<span class="hl-green">高於</span>同類型機構平均 <span class="hl-num">55</span> 分</div>
+          <div class="ib-item">📈 <span class="hl-num">5</span> 位學生<span class="hl-green">連續進步</span>，留存風險低</div>
+          <div class="ib-item">⚡ 建議：<span class="hl">致電張小華家長</span>，了解近況</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 7 — BENEFITS ═══ -->
+<section class="slide" id="s7">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <h2 class="scene-title">每個人都受益</h2>
+      <p class="scene-desc">AI-Tutor 幫四個角色各解決一個核心問題</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="student-card blue" style="border-left-color:var(--blue);background:var(--blue-bg)">
+        <div class="sc-name" style="font-size:17px">👨‍🏫 老師</div>
+        <div class="sc-detail"><span class="hl">上課前就知道學生弱點</span>，不用猜<br>AI 提供教學建議，新手也能帶<br><span class="hl">自動產報告</span>，不用手寫聯絡簿</div>
+      </div>
+      <div class="student-card" style="border-left-color:var(--indigo);background:var(--indigo-bg)">
+        <div class="sc-name" style="font-size:17px">📖 學生</div>
+        <div class="sc-detail"><span class="hl">只練不會的</span>，不寫無效作業<br>AI 自動調難度，不會太難也不會太簡單</div>
+      </div>
+      <div class="student-card" style="border-left-color:var(--green);background:var(--green-bg)">
+        <div class="sc-name" style="font-size:17px">👩‍👦 家長</div>
+        <div class="sc-detail">每次上完課就收到報告，<span class="hl">不用主動問</span><br>看得到燈號和趨勢，不是只有分數<br>知道回家可以<span class="hl">怎麼幫小孩</span></div>
+      </div>
+      <div class="student-card" style="border-left-color:var(--yellow);background:var(--yellow-bg)">
+        <div class="sc-name" style="font-size:17px">🏫 班主任（您）</div>
+        <div class="sc-detail">哪個學生快退班，<span class="hl">系統提前預警</span><br>家長報告自動發，<span class="hl">不佔人力</span><br>續班率、開啟率等數據一目瞭然</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 8 — CLOSING ═══ -->
+<section class="slide closing" id="s8">
+  <div class="slide-inner">
+    <div class="cover-eyebrow" style="color:var(--ink-faint)">這就是</div>
+    <h2 class="closing-title">AI-Tutor</h2>
+    <p class="closing-sub">
+      老師省時間<br>
+      學生練對題<br>
+      家長看得見<br>
+      <strong>您掌握全局</strong>
+    </p>
+    <div>
+      <span class="closing-cta">免費試用一個月<br>挑一個班試試看？</span>
+    </div>
+    <p class="closing-note">全部設定好，老師不用多做什麼事</p>
+  </div>
+</section>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.getElementById('navDots');
+
+slides.forEach((_, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'nav-dot';
+  btn.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+  dotsContainer.appendChild(btn);
+});
+
+const dots = dotsContainer.querySelectorAll('.nav-dot');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      const idx = [...slides].indexOf(entry.target);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  });
+}, { threshold: 0.5 });
+
+slides.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

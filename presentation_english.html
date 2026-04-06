@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>兒童美語班的一天 — AI-Tutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400&family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f1ea;
+  --paper: #ffffff;
+  --ink: #1c1814;
+  --ink-soft: #3a3530;
+  --ink-muted: #7a7068;
+  --ink-faint: #c4b8a8;
+  --cream: #ede5d8;
+  --cream-deep: #ddd2c0;
+  --warm-glow: #faf5ee;
+
+  --red: #c93a22;
+  --red-bg: #fef0ec;
+  --red-ring: rgba(201,58,34,0.12);
+  --yellow: #b8870e;
+  --yellow-bg: #fef7e2;
+  --yellow-ring: rgba(184,135,14,0.12);
+  --green: #1a7d5a;
+  --green-bg: #e8f7f0;
+  --green-ring: rgba(26,125,90,0.12);
+  --blue: #2860b0;
+  --blue-bg: #ebf1fb;
+  --indigo: #4a40d8;
+  --indigo-bg: #eeedfb;
+
+  --shadow-screen: 0 2px 8px rgba(28,24,20,0.06), 0 12px 36px rgba(28,24,20,0.10);
+  --shadow-card: 0 1px 3px rgba(28,24,20,0.05), 0 6px 20px rgba(28,24,20,0.06);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════
+   SLIDES
+   ═══════════════════════════════════ */
+.slide {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 24px;
+  position: relative;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── SCENE HEADER ── */
+.scene-header { text-align: center; }
+
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 7px 20px;
+  border-radius: 100px;
+  background: var(--ink);
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.scene-title {
+  font-family: 'Fraunces', 'Noto Sans TC', serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.scene-desc {
+  font-size: 17px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+/* ── SCREEN MOCKUP ── */
+.screen-mock {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-screen);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.screen-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, #fafaf8 0%, #f4f1ec 100%);
+  border-bottom: 1px solid var(--cream);
+}
+.screen-dots { display: flex; gap: 5px; }
+.screen-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cream-deep);
+}
+.screen-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  letter-spacing: 0.3px;
+}
+
+.screen-body { padding: 20px; }
+
+/* ── OVERVIEW BAR ── */
+.overview-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ov-chip {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: var(--warm-glow);
+  color: var(--ink-soft);
+  border: 1px solid var(--cream);
+}
+.ov-chip strong { font-weight: 700; }
+
+/* ── STUDENT CARDS ── */
+.student-card {
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-left: 5px solid;
+  position: relative;
+}
+.student-card:last-child { margin-bottom: 0; }
+.student-card.red    { border-left-color: var(--red);    background: var(--red-bg); }
+.student-card.yellow { border-left-color: var(--yellow); background: var(--yellow-bg); }
+.student-card.green  { border-left-color: var(--green);  background: var(--green-bg); }
+
+.sc-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sc-detail {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.sc-suggest {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--cream-deep);
+}
+.sc-suggest strong { color: var(--ink-soft); }
+
+.pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.pill-red    { background: var(--red-bg);    color: var(--red);    box-shadow: 0 0 0 1px var(--red-ring); }
+.pill-yellow { background: var(--yellow-bg); color: var(--yellow); box-shadow: 0 0 0 1px var(--yellow-ring); }
+.pill-green  { background: var(--green-bg);  color: var(--green);  box-shadow: 0 0 0 1px var(--green-ring); }
+
+/* ── HIGHLIGHT ── */
+.hl {
+  color: var(--ink);
+  font-weight: 700;
+  background: linear-gradient(180deg, transparent 58%, rgba(240,192,64,0.35) 58%);
+  padding: 0 2px;
+}
+.hl-green {
+  color: var(--green);
+  font-weight: 700;
+}
+.hl-red {
+  color: var(--red);
+  font-weight: 700;
+}
+.hl-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 1.05em;
+}
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.kpi-box {
+  background: var(--warm-glow);
+  border: 1px solid var(--cream);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: center;
+}
+.kpi-val {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.kpi-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+.kpi-delta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+}
+.kpi-up { color: var(--green); }
+
+/* ── INSIGHT BOX ── */
+.insight-box {
+  background: linear-gradient(135deg, var(--blue-bg) 0%, var(--indigo-bg) 100%);
+  border-left: 4px solid var(--indigo);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+.insight-box .ib-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--indigo);
+  margin-bottom: 8px;
+}
+.insight-box .ib-item {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  margin-bottom: 4px;
+}
+.insight-box .ib-item:last-child { margin-bottom: 0; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--indigo) 0%, #3730a3 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Noto Sans TC', sans-serif;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(80,70,229,0.3);
+  letter-spacing: 0.5px;
+}
+.btn-link {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 10px;
+  text-decoration: underline;
+  text-decoration-color: var(--cream-deep);
+  text-underline-offset: 3px;
+}
+
+/* ── LINE MESSAGE ── */
+.line-chat {
+  background: linear-gradient(180deg, #7bb833 0%, #6aaa28 100%);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-screen);
+}
+.line-sender {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.line-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.line-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.line-bubble {
+  background: #fff;
+  border-radius: 2px 18px 18px 18px;
+  padding: 18px 20px;
+  margin-left: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.line-bubble p {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 6px;
+}
+.line-bubble p:last-child { margin-bottom: 0; }
+.line-bubble .lb-highlight { font-weight: 700; color: var(--ink); }
+
+/* ── MINI CHART ── */
+.mini-chart {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+.mini-chart-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ── SKILL BAR ── */
+.skill-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.skill-bar-row:last-child { margin-bottom: 0; }
+.skill-bar-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  min-width: 80px;
+  text-align: right;
+}
+.skill-bar-track {
+  flex: 1;
+  height: 22px;
+  background: var(--cream);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.6s ease;
+}
+.skill-bar-fill.bar-red    { background: linear-gradient(90deg, #e05a46, var(--red)); }
+.skill-bar-fill.bar-yellow { background: linear-gradient(90deg, #daa520, var(--yellow)); }
+.skill-bar-fill.bar-green  { background: linear-gradient(90deg, #2eaa70, var(--green)); }
+.skill-bar-val {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 36px;
+}
+.skill-bar-val.val-red    { color: var(--red); }
+.skill-bar-val.val-yellow { color: var(--yellow); }
+.skill-bar-val.val-green  { color: var(--green); }
+
+/* ── QUIZ MOCKUP ── */
+.quiz-card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-screen);
+  overflow: hidden;
+  border: 2px solid #b8d4f0;
+}
+.quiz-header {
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  padding: 14px 20px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.quiz-progress {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+}
+.quiz-body { padding: 20px; }
+.quiz-question-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.quiz-question-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 16px;
+  text-align: center;
+  padding: 14px;
+  background: var(--warm-glow);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--cream);
+}
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.quiz-option {
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--warm-glow);
+  border: 2px solid var(--cream);
+  text-align: center;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-option.selected {
+  border-color: var(--green);
+  background: var(--green-bg);
+  box-shadow: 0 0 0 3px var(--green-ring);
+}
+.quiz-divider {
+  border: none;
+  border-top: 1px dashed var(--cream-deep);
+  margin: 16px 0;
+}
+.letter-drag {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.letter-tile {
+  width: 40px; height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--cream-deep);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+.letter-tile.placed {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green);
+}
+.letter-tile.empty {
+  background: var(--warm-glow);
+  border-style: dashed;
+  color: transparent;
+}
+
+/* ── WORD STATUS ── */
+.word-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.word-tag {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+}
+.word-tag.mastered {
+  background: var(--green-bg);
+  color: var(--green);
+  box-shadow: 0 0 0 1px var(--green-ring);
+}
+.word-tag.learning {
+  background: var(--yellow-bg);
+  color: var(--yellow);
+  box-shadow: 0 0 0 1px var(--yellow-ring);
+}
+
+/* ── ROLE BENEFIT CARDS ── */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.benefit-card {
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.benefit-role {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.benefit-list {
+  list-style: none;
+  padding: 0;
+}
+.benefit-list li {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  padding-left: 18px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.benefit-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--indigo);
+  font-weight: 700;
+}
+
+/* ── RADAR ── */
+.radar-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+.radar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.radar-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.radar-dot.ok   { background: var(--green); box-shadow: 0 0 0 3px var(--green-ring); }
+.radar-dot.warn { background: var(--yellow); box-shadow: 0 0 0 3px var(--yellow-ring); }
+
+/* ── ALERT CARD ── */
+.alert-card {
+  background: #fffbf5;
+  border: 2px solid var(--yellow);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.alert-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--yellow), var(--red));
+}
+
+/* ═══════════════════════════════════
+   COVER
+   ═══════════════════════════════════ */
+.cover {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,146,18,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(74,64,216,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 80%);
+}
+.cover .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 28px;
+}
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.cover-title {
+  font-family: 'Fraunces', serif;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.cover-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, #f0c040 0%, #e8883d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.cover-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.65;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.cover-roles {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.role-chip {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.55);
+}
+
+/* ═══════════════════════════════════
+   CLOSING
+   ═══════════════════════════════════ */
+.closing {
+  background: linear-gradient(160deg, var(--ink) 0%, #2a2520 100%);
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(74,64,216,0.14) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 30%, rgba(196,146,18,0.1) 0%, transparent 50%);
+}
+.closing .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 24px;
+}
+.closing-title {
+  font-family: 'Fraunces', serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.closing-sub {
+  font-size: 19px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.8;
+}
+.closing-sub strong { color: #fff; }
+.closing-cta {
+  display: inline-block;
+  padding: 18px 36px;
+  background: linear-gradient(135deg, #f0c040, #e8883d);
+  border-radius: 100px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.3px;
+  box-shadow: 0 6px 28px rgba(232,136,61,0.4);
+  line-height: 1.5;
+}
+.closing-note {
+  font-size: 15px;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ═══════════════════════════════════
+   SCROLL HINT
+   ═══════════════════════════════════ */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+.scroll-hint span { font-size: 13px; opacity: 0.45; color: #fff; }
+.scroll-hint .arrow { font-size: 20px; opacity: 0.35; color: #fff; }
+
+@keyframes pulse-hint {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.5; transform: translateX(-50%) translateY(5px); }
+}
+
+/* ═══════════════════════════════════
+   NAV DOTS
+   ═══════════════════════════════════ */
+.nav-dots {
+  position: fixed;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: 0.3;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-dot.active {
+  opacity: 1;
+  background: var(--ink);
+  transform: scale(1.5);
+}
+
+/* ═══════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide-inner > * {
+  opacity: 0;
+  animation: fade-up 0.6s ease-out forwards;
+}
+.slide-inner > *:nth-child(1) { animation-delay: 0.1s; }
+.slide-inner > *:nth-child(2) { animation-delay: 0.25s; }
+.slide-inner > *:nth-child(3) { animation-delay: 0.4s; }
+
+.slide:not(.in-view) .slide-inner > * { opacity: 0; animation: none; }
+.slide.in-view .slide-inner > * { animation: fade-up 0.6s ease-out forwards; }
+
+/* ═══════════════════════════════════
+   DESKTOP
+   ═══════════════════════════════════ */
+@media (min-width: 768px) {
+  .slide-inner { max-width: 560px; }
+  .cover-title { font-size: 56px; }
+  .scene-title { font-size: 38px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ═══ SLIDE 0 — COVER ═══ -->
+<section class="slide cover" id="s0">
+  <div class="slide-inner">
+    <div class="cover-eyebrow">AI-Tutor 情境展示</div>
+    <h1 class="cover-title"><em>兒童美語班的一天</em></h1>
+    <p class="cover-sub">聽說讀寫看得見，家長安心續報</p>
+    <div class="cover-roles">
+      <span class="role-chip">👨‍🏫 老師</span>
+      <span class="role-chip">📖 學生</span>
+      <span class="role-chip">👩‍👦 家長</span>
+      <span class="role-chip">🏫 班主任</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>往下滑</span>
+    <span class="arrow">&#8595;</span>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 1 — 15:00 老師備課 ═══ -->
+<section class="slide" id="s1">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">15 : 00</div>
+      <h2 class="scene-title">老師備課</h2>
+      <p class="scene-desc">今天教 <span class="hl">Unit 5 動物單字</span><br>系統提醒這班上次<span class="hl-red">聽力測驗偏弱</span></p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">班級四維能力圖</span>
+      </div>
+      <div class="screen-body">
+        <div class="overview-bar">
+          <span class="ov-chip">本班 <strong>18</strong> 人</span>
+          <span class="ov-chip">Unit 5 動物單字</span>
+        </div>
+
+        <div class="skill-bar-row">
+          <span class="skill-bar-label">🎧 聽力</span>
+          <div class="skill-bar-track"><div class="skill-bar-fill bar-red" style="width:58%"></div></div>
+          <span class="skill-bar-val val-red">58</span>
+        </div>
+        <div class="skill-bar-row">
+          <span class="skill-bar-label">🗣️ 口說</span>
+          <div class="skill-bar-track"><div class="skill-bar-fill bar-yellow" style="width:65%"></div></div>
+          <span class="skill-bar-val val-yellow">65</span>
+        </div>
+        <div class="skill-bar-row">
+          <span class="skill-bar-label">📖 閱讀</span>
+          <div class="skill-bar-track"><div class="skill-bar-fill bar-green" style="width:72%"></div></div>
+          <span class="skill-bar-val val-green">72</span>
+        </div>
+        <div class="skill-bar-row">
+          <span class="skill-bar-label">✏️ 拼字</span>
+          <div class="skill-bar-track"><div class="skill-bar-fill bar-green" style="width:70%"></div></div>
+          <span class="skill-bar-val val-green">70</span>
+        </div>
+
+        <div class="insight-box" style="margin-top:16px">
+          <div class="ib-title">🤖 AI 建議</div>
+          <div class="ib-item">這班<span class="hl-red">聽力偏弱</span>，建議今天多安排<span class="hl">聽音辨字活動</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 2 — 16:40 課堂小測 ═══ -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">16 : 40</div>
+      <h2 class="scene-title">課堂小測</h2>
+      <p class="scene-desc">學生用平板做 <span class="hl-num">10</span> 題聽力 + 拼字小測驗<br>像玩遊戲一樣</p>
+    </div>
+    <div class="quiz-card">
+      <div class="quiz-header">
+        <span>🎮 動物單字大挑戰</span>
+        <span class="quiz-progress">7 / 10 ⭐</span>
+      </div>
+      <div class="quiz-body">
+        <div class="quiz-question-label">🎧 聽音選圖題</div>
+        <div class="quiz-question-text">🔊 <em style="font-size:15px;color:var(--ink-muted)">（播放中…）</em></div>
+        <div class="quiz-options">
+          <div class="quiz-option">🐵</div>
+          <div class="quiz-option">🐘</div>
+          <div class="quiz-option selected">🐒</div>
+          <div class="quiz-option">🦁</div>
+        </div>
+
+        <hr class="quiz-divider">
+
+        <div class="quiz-question-label">🔤 拖拉字母拼字題</div>
+        <div style="text-align:center;margin-bottom:8px;font-size:15px;color:var(--ink-muted)">拼出 <span class="hl">monkey</span></div>
+        <div class="letter-drag">
+          <div class="letter-tile placed">m</div>
+          <div class="letter-tile placed">o</div>
+          <div class="letter-tile placed">n</div>
+          <div class="letter-tile placed">k</div>
+          <div class="letter-tile empty">&nbsp;</div>
+          <div class="letter-tile empty">&nbsp;</div>
+        </div>
+        <div class="letter-drag" style="margin-top:8px">
+          <div class="letter-tile" style="background:var(--yellow-bg);border-color:var(--yellow)">e</div>
+          <div class="letter-tile" style="background:var(--yellow-bg);border-color:var(--yellow)">y</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 3 — 16:45 即時結果 ═══ -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">16 : 45</div>
+      <h2 class="scene-title">即時結果</h2>
+      <p class="scene-desc">老師馬上看到每個孩子的<br><span class="hl">聽力</span> vs <span class="hl">拼字</span>表現</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">班級測驗結果</span>
+      </div>
+      <div class="screen-body">
+        <div class="overview-bar">
+          <span class="ov-chip">聽力平均 <strong style="color:var(--green)">80%</strong></span>
+          <span class="ov-chip">拼字平均 <strong style="color:var(--yellow)">62%</strong></span>
+        </div>
+
+        <div class="student-card red" style="border-left-color:var(--yellow)">
+          <div class="sc-name"><span class="pill pill-yellow">最多人拼錯</span></div>
+          <div class="sc-detail">
+            <span class="hl">monkey</span> — <span class="hl-red"><span class="hl-num">8</span> 人拼錯</span><br>
+            <span class="hl">elephant</span> — <span class="hl-red"><span class="hl-num">6</span> 人拼錯</span>
+          </div>
+        </div>
+
+        <div class="student-card yellow">
+          <div class="sc-name"><span class="pill pill-red">特別提醒</span></div>
+          <div class="sc-detail">
+            小芳：<span class="hl">monkey</span> → <span class="hl-red">monky</span> ✗<br>
+            小明：<span class="hl">elephant</span> → <span class="hl-red">elefant</span> ✗
+          </div>
+        </div>
+
+        <div class="student-card green">
+          <div class="sc-name"><span class="pill pill-green">已經會的</span></div>
+          <div class="sc-detail">
+            <span class="hl-green">dog</span> ✅ &ensp;
+            <span class="hl-green">cat</span> ✅ &ensp;
+            <span class="hl-green">bird</span> ✅ &ensp;
+            — 全班 <span class="hl-num">100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 4 — 17:00 下課推播 ═══ -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">17 : 00</div>
+      <h2 class="scene-title">下課・推播</h2>
+      <p class="scene-desc">系統自動發送<span class="hl">回家聽力作業</span> + <span class="hl">家長報告</span></p>
+    </div>
+    <div class="line-chat">
+      <div class="line-sender">
+        <div class="line-avatar">🔤</div>
+        <div class="line-name">ABC 兒童美語</div>
+      </div>
+      <div class="line-bubble">
+        <p>小芳媽媽您好！今天學了 <span class="lb-highlight"><span class="hl-num">8</span> 個動物單字</span> 🦁</p>
+        <p><span class="lb-highlight">🎧 聽力 <span class="hl-green">90 分</span></span>，很棒 👍</p>
+        <p><span class="lb-highlight">🔤 拼字還需加油</span>，<span class="hl">monkey</span> 和 <span class="hl">elephant</span> 拼錯了</p>
+        <p><span class="lb-highlight">🏠 回家任務：</span>陪小芳玩 App 裡的<span class="hl">拼字遊戲 10 分鐘</span> 🎮</p>
+        <div class="mini-chart">
+          <div class="mini-chart-label">單字掌握情況</div>
+          <div class="word-status">
+            <span class="word-tag mastered">✅ dog</span>
+            <span class="word-tag mastered">✅ cat</span>
+            <span class="word-tag mastered">✅ bird</span>
+            <span class="word-tag learning">⚠️ monkey</span>
+            <span class="word-tag learning">⚠️ elephant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 5 — 隔天 班主任看全局 ═══ -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge" style="background:var(--indigo);color:#fff">隔天</div>
+      <h2 class="scene-title">班主任看全局</h2>
+      <p class="scene-desc">您打開系統，一杯咖啡的時間掌握全局</p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">班主任儀表板</span>
+      </div>
+      <div class="screen-body">
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-val">3 班</div>
+            <div class="kpi-label">共 <span class="hl-num">45</span> 位學生</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">120</div>
+            <div class="kpi-label">初級班平均字彙量</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">67%</div>
+            <div class="kpi-label">家長 App 使用率</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">88%</div>
+            <div class="kpi-label">本期續報率</div>
+          </div>
+        </div>
+
+        <div class="student-card yellow" style="margin-bottom:14px">
+          <div class="sc-name"><span class="pill pill-yellow">需關注</span></div>
+          <div class="sc-detail"><span class="hl-num">2</span> 位學生進度落後，建議<span class="hl">降級</span></div>
+        </div>
+
+        <div class="insight-box">
+          <div class="ib-title">🤖 AI 洞察</div>
+          <div class="ib-item">初級班<span class="hl-red">聽力普遍偏弱</span>，建議增加<span class="hl">聽力活動比重</span></div>
+          <div class="ib-item">家長 App 使用率 <span class="hl-num">67%</span>，使用率高的家長續報率達 <span class="hl-green">95%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 6 — 每個人都受益 ═══ -->
+<section class="slide" id="s6">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <h2 class="scene-title">每個人都受益</h2>
+    </div>
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <div class="benefit-role">👨‍🏫 老師</div>
+        <ul class="benefit-list">
+          <li>清楚每個孩子<span class="hl">聽說讀寫</span>哪個最弱</li>
+          <li>小測<span class="hl">自動批改</span>，馬上知道哪個單字要再教</li>
+        </ul>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-role">📖 學生</div>
+        <ul class="benefit-list">
+          <li>拼字<span class="hl">遊戲化</span>，學英文像玩遊戲</li>
+          <li>AI 推薦回家<span class="hl">聽力練習</span>，每天 <span class="hl-num">10</span> 分鐘就好</li>
+        </ul>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-role">👩‍👦 家長</div>
+        <ul class="benefit-list">
+          <li>看得懂孩子英文程度（不再只有 <span class="hl-red">A/B/C</span> 等第）</li>
+          <li>知道回家要<span class="hl">陪練什麼</span>、怎麼練</li>
+          <li>每個單字會不會<span class="hl">一目瞭然</span></li>
+        </ul>
+      </div>
+      <div class="benefit-card" style="border:2px solid var(--indigo);background:var(--indigo-bg)">
+        <div class="benefit-role">🏫 班主任（您）</div>
+        <ul class="benefit-list">
+          <li>家長覺得「<span class="hl">有效果看得見</span>」→ <span class="hl-green">續報率提升</span></li>
+          <li>跟其他美語班的<span class="hl">差異化</span>：<span class="hl">數據驅動教學</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 7 — CLOSING ═══ -->
+<section class="slide closing" id="s7">
+  <div class="slide-inner">
+    <div class="closing-title">這就是 AI-Tutor</div>
+    <div class="closing-sub">
+      <strong>老師教得準</strong> ／ <strong>孩子學得開心</strong><br>
+      <strong>家長看得懂</strong> ／ <strong>您招生更有力</strong>
+    </div>
+    <div>
+      <span class="closing-cta">免費試用一個月<br>挑一個班試試看？</span>
+    </div>
+    <div class="closing-note">不改變教法，系統幫您把效果「看得見」</div>
+  </div>
+</section>
+
+<script>
+// NAV DOTS
+const slides = document.querySelectorAll('.slide');
+const nav = document.getElementById('navDots');
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'nav-dot';
+  d.addEventListener('click', () => slides[i].scrollIntoView({ behavior: 'smooth' }));
+  nav.appendChild(d);
+});
+
+// IN-VIEW OBSERVER
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    e.target.classList.toggle('in-view', e.isIntersecting);
+    if (e.isIntersecting) {
+      const i = [...slides].indexOf(e.target);
+      nav.querySelectorAll('.nav-dot').forEach((d, j) => d.classList.toggle('active', i === j));
+    }
+  });
+}, { threshold: 0.45 });
+slides.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
