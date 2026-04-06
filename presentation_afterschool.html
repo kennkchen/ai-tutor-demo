@@ -659,7 +659,7 @@ body {
   <div class="slide-inner">
     <div class="cover-eyebrow">AI-Tutor 情境展示</div>
     <h1 class="cover-title"><em>安親班的一天</em></h1>
-    <p class="cover-sub">作業盯得住、進步看得見、家長最安心</p>
+    <p class="cover-sub">批改加速、錯題加強、家長安心</p>
     <div class="cover-roles">
       <span class="role-chip">👨‍🏫 老師</span>
       <span class="role-chip">📖 學生</span>
@@ -673,99 +673,102 @@ body {
   </div>
 </section>
 
-<!-- ═══ SLIDE 1 — 16:00 學生到班 ═══ -->
+<!-- ═══ SLIDE 1 — 16:00 學生寫作業 ═══ -->
 <section class="slide" id="s1">
   <div class="slide-inner">
     <div class="scene-header">
       <div class="time-badge">16 : 00</div>
-      <h2 class="scene-title">學生到班</h2>
-      <p class="scene-desc">小朋友放學到安親班<br>老師登記到班 + 查看學校作業</p>
+      <h2 class="scene-title">學生到班・寫作業</h2>
+      <p class="scene-desc">小朋友放學到安親班，開始寫學校作業<br><span class="hl">老師照常帶班，系統不介入</span></p>
     </div>
     <div class="screen-mock">
       <div class="screen-bar">
         <div class="screen-dots"><span></span><span></span><span></span></div>
-        <span class="screen-label">今日到班總覽</span>
+        <span class="screen-label">現場實況</span>
       </div>
       <div class="screen-body">
-        <div class="overview-bar">
-          <span class="ov-chip"><span class="hl-green">已到</span> <strong><span class="hl-num">12</span> / 15 人</strong> ✅</span>
-          <span class="ov-chip" style="border-color:var(--red);color:var(--red)"><strong><span class="hl-num">3</span></strong> 人未到</span>
+        <div class="student-card green">
+          <div class="sc-name">跟現在完全一樣</div>
+          <div class="sc-detail">學生寫作業，老師巡場、解題、盯進度<br><span class="hl">不需要改變任何現有流程</span></div>
         </div>
-        <div style="margin-bottom:14px">
-          <div style="font-size:14px;font-weight:700;color:var(--ink-muted);margin-bottom:8px;letter-spacing:0.5px">今日學校作業</div>
-          <ul class="hw-list">
-            <li><span class="hl">數學</span>：分數加減 第 <span class="hl-num">45</span> 頁</li>
-            <li><span class="hl">國語</span>：造句 <span class="hl-num">5</span> 題 + 課文朗讀</li>
-            <li><span class="hl">自然</span>：觀察紀錄表</li>
-          </ul>
+        <div class="insight-box" style="margin-top:14px">
+          <div class="ib-title">⏰ 安親老師的現實</div>
+          <div class="ib-item"><span class="hl-num">15</span> 個學生、<span class="hl-num">2</span> 小時、每人只有 <span class="hl-red">8 分鐘</span></div>
+          <div class="ib-item">各校各班作業不同，有的有答案本，有的沒有</div>
+          <div class="ib-item">家長要求：作業<span class="hl">正確率</span> + <span class="hl">成績提升</span></div>
         </div>
       </div>
-      <div class="screen-footer"><span class="hl-red">3</span> 位未到學生已自動通知家長</div>
     </div>
   </div>
 </section>
 
-<!-- ═══ SLIDE 2 — 16:30 寫作業時段 ═══ -->
+<!-- ═══ SLIDE 2 — 16:40 拍照批改 ═══ -->
 <section class="slide" id="s2">
   <div class="slide-inner">
     <div class="scene-header">
-      <div class="time-badge">16 : 30</div>
-      <h2 class="scene-title">寫作業時段</h2>
-      <p class="scene-desc">老師巡場，即時看板顯示每個人的狀態<br><span class="hl">不用一個一個問「寫完沒」</span></p>
+      <div class="time-badge">16 : 40</div>
+      <h2 class="scene-title">學生寫完・拍照批改</h2>
+      <p class="scene-desc">學生寫完拿給老師<br>老師拍一下，<span class="hl">AI 秒對答案</span></p>
     </div>
     <div class="screen-mock">
       <div class="screen-bar">
         <div class="screen-dots"><span></span><span></span><span></span></div>
-        <span class="screen-label">學生狀態看板</span>
+        <span class="screen-label">AI 批改助手</span>
       </div>
       <div class="screen-body">
-        <div class="overview-bar">
-          <span class="ov-chip">🟢 寫完 <strong><span class="hl-num">5</span> 人</strong></span>
-          <span class="ov-chip">🟡 進行中 <strong><span class="hl-num">6</span> 人</strong></span>
-          <span class="ov-chip" style="border-color:var(--red);color:var(--red)">🔴 卡住 <strong><span class="hl-num">1</span> 人</strong></span>
+        <div class="student-card green" style="margin-bottom:10px">
+          <div class="sc-name">📸 拍照上傳 → <span class="hl-green">3 秒出結果</span></div>
+          <div class="sc-detail">小明的數學作業（<span class="hl">分數加減</span>）<br>共 <span class="hl-num">10</span> 題，答對 <span class="hl-green">8</span> 題，答錯 <span class="hl-red">2</span> 題</div>
         </div>
-        <div class="status-row" style="background:var(--red-bg);border-color:var(--red-ring)">
-          <span class="status-dot red"></span>
-          <span class="status-name">小明</span>
-          <span class="status-subject"><span class="hl">數學</span>第 3 題舉手求助</span>
-          <span class="status-pill stuck">卡住</span>
+        <div class="student-card red" style="margin-bottom:10px">
+          <div class="sc-name">❌ 錯題自動標出</div>
+          <div class="sc-detail">第 3 題：<span class="hl">⅔ + ¼</span> → 小明寫 <span class="hl-red">5/7</span>，正確答案 <span class="hl-green">11/12</span><br>第 7 題：<span class="hl">1⅓ - ⅚</span> → 小明寫 <span class="hl-red">3/6</span>，正確答案 <span class="hl-green">½</span></div>
         </div>
-        <div class="status-row">
-          <span class="status-dot yellow"></span>
-          <span class="status-name">小華</span>
-          <span class="status-subject">國語・造句</span>
-          <span class="status-pill wip">進行中</span>
-        </div>
-        <div class="status-row">
-          <span class="status-dot yellow"></span>
-          <span class="status-name">小美</span>
-          <span class="status-subject">數學・分數加減</span>
-          <span class="status-pill wip">進行中</span>
-        </div>
-        <div class="status-row">
-          <span class="status-dot green"></span>
-          <span class="status-name">小安</span>
-          <span class="status-subject">全部完成</span>
-          <span class="status-pill done">已開始加強</span>
-        </div>
-        <div class="status-row">
-          <span class="status-dot green"></span>
-          <span class="status-name">小恩</span>
-          <span class="status-subject">全部完成</span>
-          <span class="status-pill done">已開始加強</span>
+        <div class="insight-box">
+          <div class="ib-title">💡 跟以前的差別</div>
+          <div class="ib-item">以前：老師一題一題對答案，<span class="hl-red">每人 5 分鐘</span></div>
+          <div class="ib-item">現在：拍一下就改完，<span class="hl-green">每人 30 秒</span></div>
+          <div class="ib-item">省下來的時間 → 多改幾個學生、多教幾個觀念</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ SLIDE 3 — 17:30 寫完作業・開始加強 ═══ -->
+<!-- ═══ SLIDE 3 — 17:00 沒答案本 ═══ -->
 <section class="slide" id="s3">
   <div class="slide-inner">
     <div class="scene-header">
-      <div class="time-badge">17 : 30</div>
-      <h2 class="scene-title">寫完作業・開始加強</h2>
-      <p class="scene-desc">寫完作業的學生做 AI 推薦練習<br>針對今天作業的弱點加強</p>
+      <div class="time-badge">17 : 00</div>
+      <h2 class="scene-title">沒答案本？AI 幫你解</h2>
+      <p class="scene-desc">學校老師自出的考卷、家長自帶的評量<br>沒有答案本，<span class="hl">AI 直接幫老師解題</span></p>
+    </div>
+    <div class="screen-mock">
+      <div class="screen-bar">
+        <div class="screen-dots"><span></span><span></span><span></span></div>
+        <span class="screen-label">AI 解題助手</span>
+      </div>
+      <div class="screen-body">
+        <div class="student-card" style="border-left-color:var(--blue);background:var(--blue-bg);margin-bottom:10px">
+          <div class="sc-name">📸 拍考卷 → AI <span class="hl-num">30</span> 秒產出完整解答</div>
+          <div class="sc-detail">小華的媽媽帶來一份<span class="hl">評量卷</span>，沒有答案本<br>以前：老師自己算，花 <span class="hl-red">15 分鐘</span><br>現在：拍照上傳，AI <span class="hl-green">30 秒</span>給完整解答</div>
+        </div>
+        <div class="student-card green">
+          <div class="sc-name">適用所有題目來源</div>
+          <div class="sc-detail">✅ 學校課本作業（有答案本 → AI 對答案）<br>✅ 學校老師自出考卷（<span class="hl">AI 自己解再批改</span>）<br>✅ 家長自帶評量卷（<span class="hl">AI 自己解再批改</span>）<br>✅ 安親班自出練習（<span class="hl">AI 自己解再批改</span>）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 4 — 17:10 錯題加強 ═══ -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="time-badge">17 : 10</div>
+      <h2 class="scene-title">改完 → 錯題自動加強</h2>
+      <p class="scene-desc">改完的學生不是發呆<br>AI 根據錯題<span class="hl">自動出同類型練習</span></p>
     </div>
     <div class="screen-mock">
       <div class="screen-bar">
@@ -774,31 +777,32 @@ body {
       </div>
       <div class="screen-body">
         <div class="student-card yellow" style="margin-bottom:14px">
-          <div class="sc-name">今天數學作業「<span class="hl">分數加減</span>」錯 <span class="hl-red">2</span> 題</div>
+          <div class="sc-name">剛才數學錯了 <span class="hl-red">2</span> 題（<span class="hl">通分</span>觀念不熟）</div>
           <div class="sc-detail">AI 自動出 <span class="hl-num">5</span> 題同類型練習</div>
         </div>
         <div class="task-card">
           <div class="task-tag">弱點加強</div>
-          <div class="task-name">分數加減特訓</div>
-          <div class="task-meta">
-            <span class="hl-num">5</span> 題 ・ 難度：<span class="hl">基礎</span>（配合小明程度）・ 預估 <span class="hl-num">10</span> 分鐘
-          </div>
+          <div class="task-name">分數通分特訓</div>
+          <div class="task-meta"><span class="hl-num">5</span> 題 ・ 預估 <span class="hl-num">10</span> 分鐘 ・ 平板上做，<span class="hl">系統自動改</span></div>
         </div>
-        <div style="margin-top:14px;padding:12px 16px;background:var(--green-bg);border-radius:var(--radius-xs);border-left:4px solid var(--green)">
-          <div style="font-size:15px;color:var(--ink-soft);line-height:1.6">不只寫完作業，還<span class="hl">針對錯的地方多練</span></div>
+        <div class="insight-box" style="margin-top:14px">
+          <div class="ib-title">💡 對家長的價值</div>
+          <div class="ib-item">不只「寫完作業」，還「<span class="hl">針對弱點多練</span>」</div>
+          <div class="ib-item">學生在平板上做，<span class="hl">不佔老師時間</span></div>
+          <div class="ib-item">家長要的「<span class="hl-green">成績提升</span>」就從這裡來</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ SLIDE 4 — 18:05 家長接送・收報告 ═══ -->
-<section class="slide" id="s4">
+<!-- ═══ SLIDE 5 — 17:50 家長接送 ═══ -->
+<section class="slide" id="s5">
   <div class="slide-inner">
     <div class="scene-header">
-      <div class="time-badge">18 : 05</div>
-      <h2 class="scene-title">家長接送・收報告</h2>
-      <p class="scene-desc">家長來接小孩，走到車上就收到 LINE 通知</p>
+      <div class="time-badge">17 : 50</div>
+      <h2 class="scene-title">家長接送・一鍵發報告</h2>
+      <p class="scene-desc">家長來接小孩，走到車上就收到 LINE</p>
     </div>
     <div class="line-chat">
       <div class="line-sender">
@@ -807,20 +811,18 @@ body {
       </div>
       <div class="line-bubble">
         <p><span class="lb-highlight">小明媽媽您好！今日報告 📋</span></p>
-        <p>🕓 到班 <span class="hl-num">16:05</span> <span class="hl-green">✅</span></p>
-        <p>📝 學校作業 <span class="hl-num">17:20</span> 完成 <span class="hl-green">✅</span></p>
-        <p>&emsp;&ensp;數學錯 <span class="hl-red">2</span> 題，已訂正 <span class="hl-green">✅</span></p>
-        <p>&emsp;&ensp;<span class="hl">國語</span>造句、<span class="hl">自然</span>觀察 全部完成 <span class="hl-green">✅</span></p>
-        <p>📊 加強練習：<span class="hl">分數加減</span> <span class="hl-num">5</span> 題全對 💯</p>
-        <p>⭐ 今日表現：專注度 ⭐⭐⭐⭐</p>
-        <p>💬 老師備註：小明今天很專心，<span class="hl">分數加減進步很多</span>！</p>
+        <p>📝 學校作業全部完成 <span class="hl-green">✅</span></p>
+        <p>&emsp;數學 <span class="hl-num">10</span> 題對 <span class="hl-green">8</span> 題，錯 <span class="hl-red">2</span> 題（<span class="hl">通分</span>）已訂正</p>
+        <p>&emsp;國語造句、自然觀察 全部完成 <span class="hl-green">✅</span></p>
+        <p>📊 加強練習：<span class="hl">分數通分</span> <span class="hl-num">5</span> 題全對 💯</p>
+        <p>💡 小明<span class="hl">通分觀念明顯進步</span>，建議回家可以再練 2 題鞏固</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ SLIDE 5 — 隔天 班主任看全局 ═══ -->
-<section class="slide" id="s5">
+<!-- ═══ SLIDE 6 — 隔天 班主任看全局 ═══ -->
+<section class="slide" id="s6">
   <div class="slide-inner">
     <div class="scene-header">
       <div class="time-badge" style="background:var(--indigo);color:#fff">隔天</div>
@@ -835,42 +837,39 @@ body {
       <div class="screen-body">
         <div class="kpi-grid">
           <div class="kpi-box">
-            <div class="kpi-val">96%</div>
-            <div class="kpi-label">本週到班率</div>
-          </div>
-          <div class="kpi-box">
             <div class="kpi-val">94%</div>
-            <div class="kpi-label">作業完成率</div>
+            <div class="kpi-label">作業正確率</div>
           </div>
           <div class="kpi-box">
-            <div class="kpi-val">78% <span class="kpi-delta kpi-up">↑5%</span></div>
+            <div class="kpi-val">82% <span class="kpi-delta kpi-up">↑6%</span></div>
             <div class="kpi-label">加強練習正確率</div>
           </div>
           <div class="kpi-box">
-            <div class="kpi-val">10</div>
-            <div class="kpi-label">本月全勤人數</div>
+            <div class="kpi-val">91%</div>
+            <div class="kpi-label">家長報告開啟率</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-val">96%</div>
+            <div class="kpi-label">本月續報率</div>
           </div>
         </div>
-        <div style="font-size:14px;font-weight:700;color:var(--ink-muted);margin-bottom:8px">⚠️ 需關注</div>
         <div class="student-card red" style="margin-bottom:8px">
-          <div class="sc-name"><span class="pill pill-red">注意</span> <span class="hl-red">2</span> 位學生連續遲到</div>
+          <div class="sc-name"><span class="pill pill-red">注意</span> 小華連續 <span class="hl-red">3 天</span>數學錯超過 <span class="hl-red">3 題</span></div>
+          <div class="sc-detail">建議<span class="hl">約家長聊聊</span>，了解回家複習狀況</div>
         </div>
-        <div class="student-card yellow" style="margin-bottom:14px">
-          <div class="sc-name"><span class="pill pill-yellow">留意</span> <span class="hl-red">1</span> 位作業完成率低於 <span class="hl-red">70%</span></div>
-        </div>
-        <div class="insight-box">
+        <div class="insight-box" style="margin-top:12px">
           <div class="ib-title">💡 AI 營運洞察</div>
-          <div class="ib-item">📊 作業完成率 <span class="hl-num">94%</span>，<span class="hl-green">家長滿意度高</span></div>
-          <div class="ib-item">⚠️ 小華連續 <span class="hl-red">3 天</span>數學作業錯超過 <span class="hl-red">3 題</span>，建議<span class="hl">約家長聊聊</span></div>
-          <div class="ib-item">🏆 本月全勤獎 <span class="hl-num">10</span> 人，可考慮<span class="hl">頒獎鼓勵</span></div>
+          <div class="ib-item">📊 批改效率提升 <span class="hl-green">5 倍</span>，老師有更多時間教學</div>
+          <div class="ib-item">📈 加強練習正確率連續 <span class="hl-green">3 週上升</span>，家長看得到進步</div>
+          <div class="ib-item">⚡ 報告開啟率 <span class="hl-num">91%</span>，家長<span class="hl-green">很在意</span>每日報告</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ SLIDE 6 — BENEFITS ═══ -->
-<section class="slide" id="s6">
+<!-- ═══ SLIDE 7 — BENEFITS ═══ -->
+<section class="slide" id="s7">
   <div class="slide-inner">
     <div class="scene-header">
       <h2 class="scene-title">每個人都受益</h2>
@@ -879,19 +878,19 @@ body {
     <div style="display:flex;flex-direction:column;gap:12px">
       <div class="student-card" style="border-left-color:var(--blue);background:var(--blue-bg)">
         <div class="sc-name" style="font-size:17px">👨‍🏫 老師</div>
-        <div class="sc-detail">不用一個一個問「寫完沒」，<span class="hl">看板一目瞭然</span><br>寫完作業的孩子<span class="hl">自動有事做</span>，不會吵鬧</div>
+        <div class="sc-detail"><span class="hl">拍一下就改完</span>，不用一題一題對答案<br>沒答案本也不怕，<span class="hl">AI 幫你解</span><br>改完的學生自動有練習做，<span class="hl">不會吵鬧</span></div>
       </div>
       <div class="student-card" style="border-left-color:var(--indigo);background:var(--indigo-bg)">
         <div class="sc-name" style="font-size:17px">📖 學生</div>
-        <div class="sc-detail">作業寫錯的地方馬上有<span class="hl">類似題可以訂正</span><br>寫完作業不是發呆，有好玩的練習</div>
+        <div class="sc-detail">寫錯的地方馬上有<span class="hl">同類型練習</span>可以補強<br>寫完作業不是發呆，有針對性的練習</div>
       </div>
       <div class="student-card" style="border-left-color:var(--green);background:var(--green-bg)">
         <div class="sc-name" style="font-size:17px">👩‍👦 家長</div>
-        <div class="sc-detail">接小孩時就收到今日報告：<span class="hl">作業完成沒、哪裡不會、乖不乖</span><br>不用再問「今天作業寫完了嗎」</div>
+        <div class="sc-detail">接小孩時就收到報告：<span class="hl">寫了什麼、錯了哪裡、加強了什麼</span><br>看得到成績在進步，<span class="hl-green">續報更安心</span></div>
       </div>
       <div class="student-card" style="border-left-color:var(--yellow);background:var(--yellow-bg)">
         <div class="sc-name" style="font-size:17px">🏫 班主任（您）</div>
-        <div class="sc-detail">報告自動發、作業進度自動追蹤，<span class="hl">人力省下來</span><br>家長覺得「這間安親班很用心」→ <span class="hl-green">續報 + 轉介紹</span></div>
+        <div class="sc-detail">老師批改效率 <span class="hl-green">提升 5 倍</span>，不用多請人<br>家長報告自動發，<span class="hl">不佔人力</span><br>家長覺得「有效果」→ <span class="hl-green">續報 + 轉介紹</span></div>
       </div>
     </div>
   </div>
@@ -903,9 +902,9 @@ body {
     <div class="cover-eyebrow" style="color:var(--ink-faint)">這就是</div>
     <h2 class="closing-title">AI-Tutor</h2>
     <p class="closing-sub">
-      作業盯得住<br>
-      弱點補得到<br>
-      家長即時知<br>
+      批改快 5 倍<br>
+      錯題自動補<br>
+      家長看得見<br>
       <strong>您省心省力</strong>
     </p>
     <div>
