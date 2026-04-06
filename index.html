@@ -208,6 +208,28 @@ body {
 .pill-yellow { background: var(--yellow-bg); color: var(--yellow); box-shadow: 0 0 0 1px var(--yellow-ring); }
 .pill-green  { background: var(--green-bg);  color: var(--green);  box-shadow: 0 0 0 1px var(--green-ring); }
 
+/* ── HIGHLIGHT ── */
+.hl {
+  color: var(--ink);
+  font-weight: 700;
+  background: linear-gradient(180deg, transparent 58%, rgba(240,192,64,0.35) 58%);
+  padding: 0 2px;
+}
+.hl-green {
+  color: var(--green);
+  font-weight: 700;
+}
+.hl-red {
+  color: var(--red);
+  font-weight: 700;
+}
+.hl-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 1.05em;
+}
+
 /* ── KPI GRID ── */
 .kpi-grid {
   display: grid;
@@ -761,17 +783,17 @@ body {
         </div>
         <div class="student-card red">
           <div class="sc-name"><span class="pill pill-red">需關注</span> 王小明</div>
-          <div class="sc-detail">二次方程式連錯 3 題 — 移項法則薄弱</div>
-          <div class="sc-suggest"><strong>建議：</strong>先用圖解引導觀念，再練移項</div>
+          <div class="sc-detail"><span class="hl">二次方程式</span>連錯 <span class="hl-num">3</span> 題 — <span class="hl">移項法則</span>薄弱</div>
+          <div class="sc-suggest"><strong>建議：</strong>先用<span class="hl">圖解引導觀念</span>，再練移項</div>
         </div>
         <div class="student-card yellow">
           <div class="sc-name"><span class="pill pill-yellow">留意</span> 李小華</div>
-          <div class="sc-detail">幾何證明猶豫時間過長</div>
-          <div class="sc-suggest"><strong>建議：</strong>給予提示卡降低焦慮</div>
+          <div class="sc-detail"><span class="hl">幾何證明</span>猶豫時間過長</div>
+          <div class="sc-suggest"><strong>建議：</strong>給予<span class="hl">提示卡</span>降低焦慮</div>
         </div>
         <div class="student-card green">
           <div class="sc-name"><span class="pill pill-green">正常</span> 其餘 6 位</div>
-          <div class="sc-detail">進度正常，螺旋混合練習</div>
+          <div class="sc-detail">進度正常，<span class="hl">螺旋混合練習</span></div>
         </div>
       </div>
     </div>
@@ -805,7 +827,7 @@ body {
         <div class="task-card">
           <div class="task-tag">弱點攻克</div>
           <div class="task-name">二次方程式突破戰</div>
-          <div class="task-meta">5 題 ・ 預估 15 分鐘</div>
+          <div class="task-meta"><span class="hl-num">5</span> 題 ・ 預估 <span class="hl-num">15</span> 分鐘</div>
         </div>
         <div class="radar-row">
           <div class="radar-item"><span class="radar-dot ok"></span> 一元一次方程式</div>
@@ -835,11 +857,11 @@ body {
         <div class="alert-card">
           <div class="alert-badge">⚠️ 卡關警示</div>
           <div class="alert-student">王小明</div>
-          <div class="alert-meta">第 3 題 ・ 已用時 5 分 12 秒</div>
+          <div class="alert-meta">第 <span class="hl-num">3</span> 題 ・ 已用時 <span class="hl-red">5 分 12 秒</span></div>
           <div class="alert-question">2x² − 5x + 3 = 0</div>
           <div class="alert-suggest">
             <div class="as-label">💡 AI 教學建議</div>
-            <p>學生可能混淆因式分解與公式解。<br>建議先問：<em>「你覺得這題能不能用十字交乘？」</em></p>
+            <p>學生可能混淆<span class="hl">因式分解</span>與<span class="hl">公式解</span>。<br>建議先問：<em>「你覺得這題能不能用<span class="hl">十字交乘</span>？」</em></p>
           </div>
           <div class="alert-btns">
             <button class="alert-btn alert-btn-primary">✓ 已前往協助</button>
@@ -871,11 +893,11 @@ body {
         </div>
         <div class="student-card green">
           <div class="sc-name">王小明</div>
-          <div class="sc-detail">今天突破移項法則！正確率從 40% → 75% 📈</div>
+          <div class="sc-detail">今天突破<span class="hl">移項法則</span>！正確率從 <span class="hl-red">40%</span> → <span class="hl-green">75%</span> 📈</div>
         </div>
         <div class="student-card yellow">
           <div class="sc-name">李小華</div>
-          <div class="sc-detail">幾何需持續加強，已安排降級練習</div>
+          <div class="sc-detail"><span class="hl">幾何</span>需持續加強，已安排<span class="hl">降級練習</span></div>
         </div>
         <button class="btn-primary" style="margin-top:14px">📤&ensp;一鍵發送所有報告</button>
         <span class="btn-link">或逐一預覽修改</span>
@@ -899,10 +921,10 @@ body {
       </div>
       <div class="line-bubble">
         <p>小明媽媽您好！今天小明表現很棒 👍</p>
-        <p><span class="lb-highlight">✅ 突破：</span>終於搞懂了二次方程式的移項法則！</p>
-        <p><span class="lb-highlight">📊 正確率：</span>75%（上週 40% → 本週 75%）</p>
-        <p><span class="lb-highlight">🟢 學習燈號：</span>黃→綠，持續進步中</p>
-        <p><span class="lb-highlight">💡 回家建議：</span>可以問他「什麼時候用十字交乘？什麼時候用公式解？」</p>
+        <p><span class="lb-highlight">✅ 突破：</span>終於搞懂了<span class="hl">二次方程式的移項法則</span>！</p>
+        <p><span class="lb-highlight">📊 正確率：</span><span class="hl-green">75%</span>（上週 <span class="hl-red">40%</span> → 本週 <span class="hl-green">75%</span>）</p>
+        <p><span class="lb-highlight">🟢 學習燈號：</span><span class="hl-red">黃</span>→<span class="hl-green">綠</span>，持續進步中</p>
+        <p><span class="lb-highlight">💡 回家建議：</span>可以問他「什麼時候用<span class="hl">十字交乘</span>？什麼時候用<span class="hl">公式解</span>？」</p>
         <div class="mini-chart">
           <div class="mini-chart-label">近 4 週正確率趨勢</div>
           <svg width="100%" height="56" viewBox="0 0 300 56" fill="none">
@@ -959,17 +981,17 @@ body {
         </div>
         <div class="student-card red" style="margin-bottom:8px">
           <div class="sc-name"><span class="pill pill-red">需關注</span> 張小華</div>
-          <div class="sc-detail">學習指數 48，連續 3 週下滑</div>
+          <div class="sc-detail">學習指數 <span class="hl-red">48</span>，連續 <span class="hl-red">3 週下滑</span></div>
         </div>
         <div class="student-card yellow" style="margin-bottom:14px">
           <div class="sc-name"><span class="pill pill-yellow">留意</span> 陳小美</div>
-          <div class="sc-detail">已 3 天未登入</div>
+          <div class="sc-detail">已 <span class="hl-red">3 天未登入</span></div>
         </div>
         <div class="insight-box">
           <div class="ib-title">💡 AI 營運洞察</div>
-          <div class="ib-item">📊 本週學習指數平均 71 分，高於同類型機構平均 55 分</div>
-          <div class="ib-item">📈 5 位學生連續進步，留存風險低</div>
-          <div class="ib-item">⚡ 建議：致電張小華家長，了解近況</div>
+          <div class="ib-item">📊 本週學習指數平均 <span class="hl-num">71</span> 分，<span class="hl-green">高於</span>同類型機構平均 <span class="hl-num">55</span> 分</div>
+          <div class="ib-item">📈 <span class="hl-num">5</span> 位學生<span class="hl-green">連續進步</span>，留存風險低</div>
+          <div class="ib-item">⚡ 建議：<span class="hl">致電張小華家長</span>，了解近況</div>
         </div>
       </div>
     </div>
