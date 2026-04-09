@@ -896,36 +896,47 @@ body {
   </div>
 </section>
 
-<!-- ═══ SLIDE 4 — 20:00 AI 自動派作業 ═══ -->
+<!-- ═══ SLIDE 4 — 20:00 老師選擇差異化作業 ═══ -->
 <section class="slide" id="s4">
   <div class="slide-inner">
     <div class="scene-header">
       <div class="time-badge">20 : 00</div>
-      <h2 class="scene-title">AI 自動派作業</h2>
-      <p class="scene-desc">系統依每人成績<br>自動派不同程度的回家作業</p>
+      <h2 class="scene-title">老師選擇差異化作業</h2>
+      <p class="scene-desc">AI 根據成績提出<span class="hl">建議</span><br><span class="hl">老師主導</span>，點擊勾選要派發的作業</p>
     </div>
     <div class="screen-mock">
       <div class="screen-bar">
         <div class="screen-dots"><span></span><span></span><span></span></div>
-        <span class="screen-label">分級作業派發</span>
+        <span class="screen-label">AI 建議 · 老師選擇</span>
       </div>
       <div class="screen-body">
-        <div class="hw-group green">
-          <div class="hw-group-title"><span class="pill pill-green">A 群（80↑）</span>&ensp;<span class="hl-num">8</span> 人</div>
-          <div class="hw-group-detail">挑戰題 <span class="hl-num">5</span> 題</div>
+        <div class="hw-group green" style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:22px;line-height:1;color:var(--green);flex-shrink:0">☑</span>
+          <div style="flex:1">
+            <div class="hw-group-title"><span class="pill pill-green">A 群（80↑）</span>&ensp;<span class="hl-num">8</span> 人</div>
+            <div class="hw-group-detail">挑戰題 <span class="hl-num">5</span> 題</div>
+          </div>
         </div>
-        <div class="hw-group yellow">
-          <div class="hw-group-title"><span class="pill pill-yellow">B 群（60-80）</span>&ensp;<span class="hl-num">12</span> 人</div>
-          <div class="hw-group-detail">補強題 <span class="hl-num">8</span> 題</div>
+        <div class="hw-group yellow" style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:22px;line-height:1;color:var(--yellow);flex-shrink:0">☑</span>
+          <div style="flex:1">
+            <div class="hw-group-title"><span class="pill pill-yellow">B 群（60-80）</span>&ensp;<span class="hl-num">12</span> 人</div>
+            <div class="hw-group-detail">補強題 <span class="hl-num">8</span> 題</div>
+          </div>
         </div>
-        <div class="hw-group red">
-          <div class="hw-group-title"><span class="pill pill-red">C 群（60↓）</span>&ensp;<span class="hl-num">6</span> 人</div>
-          <div class="hw-group-detail">基礎題 <span class="hl-num">10</span> 題 + 教學影片</div>
+        <div class="hw-group red" style="display:flex;align-items:center;gap:12px">
+          <span style="font-size:22px;line-height:1;color:var(--red);flex-shrink:0">☑</span>
+          <div style="flex:1">
+            <div class="hw-group-title"><span class="pill pill-red">C 群（60↓）</span>&ensp;<span class="hl-num">6</span> 人</div>
+            <div class="hw-group-detail">基礎題 <span class="hl-num">10</span> 題 + 教學影片</div>
+          </div>
         </div>
 
-        <div style="margin-top:16px;padding:12px 16px;background:var(--warm-glow);border-radius:var(--radius-xs);border:1px solid var(--cream);text-align:center">
-          <p style="font-size:15px;color:var(--ink-soft)">全班 <span class="hl-num">26</span> 人，<span class="hl">每人作業不同</span>，系統自動完成</p>
+        <div style="margin-top:14px;padding:10px 14px;background:var(--warm-glow);border-radius:var(--radius-xs);border:1px dashed var(--cream-deep);text-align:center">
+          <p style="font-size:13px;color:var(--ink-muted);line-height:1.55">🛡️ AI 不取代老師判斷，<span class="hl">老師有最終決定權</span></p>
         </div>
+
+        <button class="btn-primary" style="margin-top:14px;padding:14px;font-size:17px">✓ 確認派發</button>
       </div>
     </div>
   </div>
@@ -938,6 +949,13 @@ body {
       <div class="time-badge">20 : 30</div>
       <h2 class="scene-title">家長收報告</h2>
       <p class="scene-desc">小明媽媽打開 LINE 看到通知</p>
+    </div>
+    <div style="background:var(--green-bg);border:1px solid var(--green-ring);border-left:4px solid var(--green);border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:-6px">
+      <span style="font-size:20px;line-height:1">✅</span>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:700;color:var(--green);line-height:1.3">主任已審核此份報告</div>
+        <div style="font-size:13px;color:var(--ink-muted);margin-top:2px">📋 可勾選揭露範圍，再由系統發送給家長</div>
+      </div>
     </div>
     <div class="line-chat">
       <div class="line-sender">
@@ -997,6 +1015,7 @@ body {
           <div class="ib-title">💡 AI 營運洞察</div>
           <div class="ib-item">📊 本班<span class="hl">十字交乘</span>普遍偏弱，建議<span class="hl">下週加考</span></div>
           <div class="ib-item">📈 作業完成率偏低，建議<span class="hl">提醒未交的 <span class="hl-num">7</span> 位家長</span></div>
+          <div class="ib-item">🔒 您的題庫和學習數據<span class="hl">綁在補習班</span>，老師走了資料還在</div>
         </div>
       </div>
     </div>
@@ -1057,7 +1076,7 @@ body {
       <strong>您掌握全局</strong>
     </p>
     <div>
-      <span class="closing-cta">免費試用一個月<br>挑一個班試試看？</span>
+      <span class="closing-cta">先試一個模組<br>（如：拍照批改 + 一鍵發成績）<br>看到效果再談其他</span>
     </div>
     <p class="closing-note">不改變教法，系統在背後做事</p>
   </div>
