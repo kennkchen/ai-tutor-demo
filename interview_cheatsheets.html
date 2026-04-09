@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>AI-Tutor 訪談提示卡 × 4 業態</title>
+<title>AI-Tutor 訪談提示卡 × 4 業態 (v3)</title>
 <style>
 @page { size: A4; margin: 12mm 14mm; }
 
@@ -49,9 +49,9 @@ body {
 .type-afterschool .hdr { border-bottom-color: #b8870e; }
 
 /* ── SECTION ── */
-.sec { margin-bottom: 10px; }
+.sec { margin-bottom: 8px; }
 .sec-title {
-  font-size: 10pt;
+  font-size: 9.5pt;
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 3px;
@@ -65,7 +65,7 @@ body {
 .type-afterschool .sec-title { background: #b8870e; }
 
 .sec-title-outline {
-  font-size: 10pt;
+  font-size: 9.5pt;
   font-weight: 800;
   padding: 2px 8px;
   border-radius: 3px;
@@ -78,28 +78,64 @@ body {
 .type-english .sec-title-outline { border-color: #1a7d5a; color: #1a7d5a; }
 .type-afterschool .sec-title-outline { border-color: #b8870e; color: #b8870e; }
 
+.sec-title-core {
+  font-size: 9.5pt;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+  background: #1a1a1a;
+  color: #ffd84d;
+}
+
+/* ── CORE INSIGHT BANNER ── */
+.core-banner {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 9.5pt;
+  line-height: 1.55;
+}
+.core-banner strong { color: #ffd84d; font-weight: 800; }
+
 /* ── HYPOTHESIS ── */
 .hypo {
   background: #f5f3f0;
   border-radius: 4px;
   padding: 6px 10px;
   margin-bottom: 10px;
-  font-size: 10pt;
+  font-size: 9.5pt;
+  line-height: 1.55;
 }
 .hypo strong { font-weight: 800; }
+.hypo .tag-v2 {
+  display: inline-block;
+  background: #1a1a1a;
+  color: #ffd84d;
+  font-size: 7.5pt;
+  padding: 1px 6px;
+  border-radius: 2px;
+  margin-right: 4px;
+  letter-spacing: 0.5px;
+  vertical-align: 1px;
+}
 
 /* ── QUESTIONS ── */
-.q-group { margin-bottom: 8px; }
-.q-label {
-  font-size: 8.5pt;
-  font-weight: 700;
-  color: #888;
-  letter-spacing: 0.5px;
+.q-group { margin-bottom: 6px; }
+.q {
+  font-size: 9.5pt;
   margin-bottom: 2px;
+  padding-left: 12px;
+  text-indent: -12px;
+  line-height: 1.45;
 }
-.q { font-size: 10pt; margin-bottom: 3px; padding-left: 12px; text-indent: -12px; }
 .q::before { content: '▸ '; font-weight: 700; }
 .q-star::before { content: '★ '; color: #c93a22; font-weight: 700; }
+.q-core::before { content: '◆ '; color: #c49212; font-weight: 700; }
+.q-new::before { content: '⊕ '; color: #1a7d5a; font-weight: 700; }
 
 /* ── LISTEN FOR ── */
 .listen {
@@ -107,8 +143,9 @@ body {
   border-left: 3px solid #ccc;
   padding: 5px 10px;
   margin-top: 4px;
-  font-size: 9pt;
+  font-size: 8.5pt;
   color: #555;
+  line-height: 1.5;
 }
 
 /* ── TWO COLUMNS ── */
@@ -116,12 +153,12 @@ body {
 .col { flex: 1; }
 
 /* ── DEMO SCRIPT TABLE ── */
-.demo-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+.demo-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
 .demo-table th {
   text-align: left;
   padding: 3px 6px;
   font-weight: 700;
-  font-size: 8.5pt;
+  font-size: 8pt;
   color: #888;
   border-bottom: 1px solid #ddd;
 }
@@ -133,31 +170,33 @@ body {
 .demo-table td:first-child {
   font-weight: 700;
   white-space: nowrap;
-  width: 28%;
+  width: 26%;
 }
 
 /* ── OBJECTION TABLE ── */
-.obj-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+.obj-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
 .obj-table td {
   padding: 4px 6px;
   border-bottom: 1px solid #eee;
   vertical-align: top;
 }
-.obj-table td:first-child { font-weight: 600; width: 35%; }
+.obj-table td:first-child { font-weight: 600; width: 36%; }
 .obj-table td:last-child { color: #333; }
+.obj-table tr.top td { background: #fff8dc; font-weight: 600; }
+.obj-table tr.top td:first-child { color: #c93a22; }
 
 /* ── RECORD FIELDS ── */
 .record-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px 12px;
-  font-size: 9pt;
+  font-size: 8.5pt;
 }
 .record-field {
   border-bottom: 1px dotted #ccc;
   padding: 3px 0;
 }
-.record-field-label { font-weight: 700; font-size: 8pt; color: #888; }
+.record-field-label { font-weight: 700; font-size: 7.5pt; color: #888; }
 
 /* ── FOOTER ── */
 .footer {
@@ -194,61 +233,77 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">🎯</span>
-      <div><div class="hdr-title">個別指導班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">個別指導班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">正面 ・ 問題篇<br>訪談日期：＿＿＿＿</div>
   </div>
 
-  <div class="hypo"><strong>要驗證的假設：</strong>老師素質參差不齊，系統能幫新手也教得好；老師帶多人時其他學生沒事做；家長想看到具體的學習報告。</div>
+  <div class="core-banner">
+    <strong>◆ 第一輪 4/4 共識：</strong>補習班現場 90%+ 用紙本，主任都想要「紙本數位化」，但都擔心辨識率與老師負擔。<br>
+    <strong>◆ 本輪重點：</strong>個指業態 n=0，這是第一間純個指，務必刻意驗證個指專屬痛點。
+  </div>
+
+  <div class="hypo">
+    <span class="tag-v2">v3</span><strong>要驗證的核心假設：</strong>
+    （1）現場仍以紙本為主，拍照批改能明顯省力；
+    （2）老師帶多人時，沒在教的學生沒事做；
+    （3）家長想看報告但不能「太冷冰冰」，需要主任能審核。
+  </div>
 
   <div class="cols">
     <div class="col">
       <div class="sec">
-        <div class="sec-title">通用問題（必問 4 題）</div>
-        <div class="q q-star">一天的流程長什麼樣？最煩什麼？</div>
+        <div class="sec-title-core">◆ 紙本數位化核心題（必問）</div>
+        <div class="q q-core">你們現在考試、作業是不是 90% 以上紙本？</div>
+        <div class="q q-core">如果能拍照自動批改，你最擔心什麼？<br>&emsp;&ensp;辨識準嗎？老師更累嗎？還是別的？</div>
+        <div class="q q-core">老師每天花多少時間改卷、發成績、寫聯絡簿？</div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">通用問題（必問 3 題）</div>
+        <div class="q q-star">一天的流程？最煩什麼？</div>
         <div class="q q-star">怎麼跟家長溝通學習狀況？</div>
-        <div class="q q-star">考完成績怎麼處理？</div>
         <div class="q q-star">最想解決什麼問題？</div>
       </div>
       <div class="sec">
         <div class="sec-title">通用問題（選問）</div>
-        <div class="q">遇過家長突然退班嗎？原因？</div>
-        <div class="q">考卷怎麼出的？花多少時間？</div>
-        <div class="q">怎麼知道哪個學生哪裡不會？</div>
-        <div class="q">用什麼數位工具？對 AI 的期待？</div>
-        <div class="q">最不想改變的工作習慣？</div>
+        <div class="q">用過什麼系統？為什麼沒繼續用？</div>
+        <div class="q">家長最常抱怨什麼？會讓他們生氣的是？</div>
       </div>
     </div>
     <div class="col">
       <div class="sec">
-        <div class="sec-title-outline">🎯 個指專屬追問（挑 2-3 題）</div>
-        <div class="q">老師大部分是兼職大學生嗎？經驗多久？</div>
+        <div class="sec-title-outline">🎯 個指專屬追問（必問）</div>
+        <div class="q">老師大部分是兼職大學生嗎？經驗多久？流動率？</div>
         <div class="q">新老師最常遇到什麼狀況？被學生問倒？</div>
-        <div class="q">老師怎麼知道今天該教學生什麼？</div>
+        <div class="q">老師怎麼知道今天該教這個學生什麼？</div>
         <div class="q">同時帶 2-3 人時，沒在教的學生在做什麼？</div>
         <div class="q">家長會要求看具體學習報告嗎？現在怎麼給？</div>
+        <div class="q">如果系統能每天省 1 小時老師時間，願意花多少錢？</div>
       </div>
       <div class="listen">
         <strong>你在聽什麼：</strong><br>
-        ・師資是痛點嗎？（流動率高、品質不穩定）<br>
-        ・「老師帶多人時，其他學生沒事做」是真的嗎？<br>
-        ・家長對「看得到進度」的需求有多強？<br>
-        ・他最在意的是教學品質、招生、還是管理？
+        ・紙本數位化疑慮（辨識率 vs 老師負擔哪個痛）<br>
+        ・師資流動率與新手教學挑戰是真的嗎？<br>
+        ・「帶多人時其他學生沒事做」是否成立？<br>
+        ・家長對報告的期待是「量化數據」還是「溫度」？<br>
+        ・付費意願量級（千元 / 萬元 / 數萬元）
       </div>
     </div>
   </div>
 
-  <div class="sec" style="margin-top:6px">
+  <div class="sec" style="margin-top:4px">
     <div class="sec-title-outline">快速紀錄區</div>
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">補習班名稱 / 主任姓名</div></div>
-      <div class="record-field"><div class="record-field-label">學生數 / 老師數</div></div>
+      <div class="record-field"><div class="record-field-label">學生數 / 老師數 / 師生比</div></div>
+      <div class="record-field"><div class="record-field-label">紙本比例（估）</div></div>
+      <div class="record-field"><div class="record-field-label">紙本數位化疑慮（原話）</div></div>
       <div class="record-field"><div class="record-field-label">最大痛點（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">意外發現</div></div>
+      <div class="record-field"><div class="record-field-label">付費意願量級</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>🎯 個別指導班 ・ 正面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0 ・ 基於 Round 1 修正</span><span>🎯 個別指導班 ・ 正面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -258,31 +313,38 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">🎯</span>
-      <div><div class="hdr-title">個別指導班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">個別指導班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">背面 ・ 展示 + 收尾篇</div>
+  </div>
+
+  <div class="core-banner">
+    <strong>◆ Demo 核心訊息：</strong>「把您的紙本試卷一鍵變成數據 — 老師零負擔、家長看得懂、主任做得了決策。」<br>
+    <strong>◆ 核心話術：</strong>我們不是要做 100% 準確的 AI 批改。我們要做的是「老師花 <strong>10%</strong> 時間確認，其餘 <strong>90%</strong> 自動完成」的系統。
   </div>
 
   <div class="sec">
     <div class="sec-title">Demo 展示話術（手機開 → 個指補習班的一天）</div>
     <table class="demo-table">
       <tr><th>畫面</th><th>你說的話（10 秒內）</th></tr>
-      <tr><td>老師到班</td><td>「上課前，老師打開平板就知道今天每個學生的弱點在哪」</td></tr>
-      <tr><td>學生到班</td><td>「學生登入就看到 AI 為他準備的任務，不用老師另外安排」</td></tr>
-      <tr><td>開始上課</td><td>「老師照常一對一教，沒在教的學生有系統派的自主練習」</td></tr>
-      <tr><td>即時介入</td><td>「學生卡關超過 5 分鐘，平板會提醒老師，還附教學建議」</td></tr>
+      <tr><td>紙本拍照批改</td><td>「老師用紙本出題，拍一下，系統 3 秒幫您批改完」</td></tr>
+      <tr><td>老師確認錯題</td><td>「信心度低的題目標出來，老師 2 秒確認，不用逐題核對」</td></tr>
+      <tr><td>學生到班</td><td>「學生登入就看到 AI 為他準備的任務，老師不用另外安排」</td></tr>
+      <tr><td>老師帶多人</td><td>「老師教 A 生時，B 生有系統派的練習題做」</td></tr>
       <tr><td>一鍵發報告</td><td>「下課按一下，家長 LINE 就收到了，不用寫聯絡簿」</td></tr>
-      <tr><td>家長報告</td><td>「家長看到的不是只有分數，還有弱點、進步趨勢、回家建議」</td></tr>
-      <tr><td>班主任儀表板</td><td>「您隨時可以看全部學生的狀況，誰快退班一目瞭然」</td></tr>
+      <tr><td>主任審核</td><td>「報告發出去之前，您可以審核內容，不讓過度揭露弱點引起家長反感」</td></tr>
+      <tr><td>主任儀表板</td><td>「全部學生狀況一個畫面看完」</td></tr>
     </table>
   </div>
 
   <div class="sec">
-    <div class="sec-title-outline">常見疑慮 & 回應</div>
+    <div class="sec-title-outline">常見疑慮 & 回應（前 2 題是必須準備好的 dealbreaker）</div>
     <table class="obj-table">
-      <tr><td>「老師會不會覺得被監視？」</td><td>系統是幫老師，不是監視。老師看到的是教學建議，不是考績。</td></tr>
-      <tr><td>「我們學生太少，值得用嗎？」</td><td>人越少越適合，因為每個學生都能被精準照顧。</td></tr>
-      <tr><td>「家長真的會看報告嗎？」</td><td>LINE 推播開啟率通常超過 85%，比紙本聯絡簿高很多。</td></tr>
+      <tr class="top"><td>「辨識率準嗎？手寫辨識可靠嗎？」</td><td>選擇題答案卡 98%+。填充數字 80-95%。手寫計算過程先不處理。信心度低的題目會標出來讓老師 2 秒確認。</td></tr>
+      <tr class="top"><td>「會不會讓老師更累？」</td><td>老師只多一個動作——拍照。其他全自動。我們要的是「老師花 10% 時間確認，90% 自動完成」。</td></tr>
+      <tr><td>「初期設定是不是很繁瑣？」</td><td>第一天登錄完，第二天就看到省力效果。學生名單從 Excel/LINE 一鍵匯入。</td></tr>
+      <tr><td>「我們學生太少，值得用嗎？」</td><td>人越少越適合，每個學生都能被精準照顧。</td></tr>
+      <tr><td>「家長真的會看報告嗎？」</td><td>LINE 推播開啟率通常 85%+，比紙本聯絡簿高很多。</td></tr>
       <tr><td>「太貴了」</td><td>先不談價格，免費試一個月，有效果再說。</td></tr>
     </table>
   </div>
@@ -290,9 +352,9 @@ body {
   <div class="sec">
     <div class="sec-title">收尾話術</div>
     <div class="q-group">
-      <div class="q">如果他很有興趣：「免費讓你試一個月，挑一個老師的班試試看？我們全部幫你設定好。」</div>
-      <div class="q">如果他有點猶豫：「我下次帶系統來，直接用你的一個班 demo 一次，你覺得哪天方便？」</div>
-      <div class="q">如果他沒興趣：「我了解。最後想請教——你覺得什麼樣的工具你會願意花錢用？」</div>
+      <div class="q">很有興趣：「免費讓你試一個月，挑一個老師的班試試看？我們全部幫你設定好。」</div>
+      <div class="q">有點猶豫：「我下次帶系統來，用你現在的考卷直接 demo 一次。」</div>
+      <div class="q">沒興趣：「最後想請教——什麼樣的工具你會願意花錢用？」</div>
     </div>
   </div>
 
@@ -302,13 +364,13 @@ body {
       <div class="record-field"><div class="record-field-label">產品反應（☐ 很有興趣 ☐ 有點興趣 ☐ 普通 ☐ 沒興趣）</div></div>
       <div class="record-field"><div class="record-field-label">願意 Pilot？（☐ 是 ☐ 考慮 ☐ 否）</div></div>
       <div class="record-field"><div class="record-field-label">他提出的疑慮（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">下一步行動</div></div>
+      <div class="record-field"><div class="record-field-label">付費意願量級 / 下一步</div></div>
       <div class="record-field"><div class="record-field-label">信心分數（1-5）：＿＿ 原因：</div></div>
-      <div class="record-field"><div class="record-field-label">這次我學到了什麼？</div></div>
+      <div class="record-field"><div class="record-field-label">個指假設是否成立？新發現？</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>🎯 個別指導班 ・ 背面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0</span><span>🎯 個別指導班 ・ 背面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -318,61 +380,77 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">👥</span>
-      <div><div class="hdr-title">團班補習班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">團班補習班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">正面 ・ 問題篇<br>訪談日期：＿＿＿＿</div>
   </div>
 
-  <div class="hypo"><strong>要驗證的假設：</strong>改考卷太花時間；無法針對個別學生差異化教學；家長只知道分數不知道弱點。</div>
+  <div class="core-banner">
+    <strong>◆ 第一輪 4/4 共識：</strong>紙本數位化需求明確，但老師負擔與辨識率是 dealbreaker。<br>
+    <strong>◆ Round 1 修正：</strong>原假設「改考卷慢」焦點錯了。003 富錦用學生互改，004 警告「過度回報家長反感」。真痛點是「行政零碎時間」+「題庫主權」+「報告審核」。
+  </div>
+
+  <div class="hypo">
+    <span class="tag-v2">v3</span><strong>要驗證的核心假設：</strong>
+    （1）真痛點是行政流程的零碎時間殺手（發成績、改卷、寫聯絡簿），不是改卷慢本身；
+    （2）補習班有自編題庫，導入系統時會擔心版權與輸入成本；
+    （3）家長報告需要主任能控管內容，不能自動全發。
+  </div>
 
   <div class="cols">
     <div class="col">
       <div class="sec">
-        <div class="sec-title">通用問題（必問 4 題）</div>
-        <div class="q q-star">一天的流程長什麼樣？最煩什麼？</div>
+        <div class="sec-title-core">◆ 紙本數位化核心題（必問）</div>
+        <div class="q q-core">你們現在考試、作業是不是 90% 以上紙本？</div>
+        <div class="q q-core">如果能拍照自動批改，你最擔心什麼？<br>&emsp;&ensp;辨識準嗎？老師更累嗎？</div>
+        <div class="q q-core">一次小考，從改完到發給家長，總共花多少人時？</div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">通用問題（必問 3 題）</div>
+        <div class="q q-star">一天的流程？最煩什麼？</div>
         <div class="q q-star">怎麼跟家長溝通學習狀況？</div>
-        <div class="q q-star">考完成績怎麼處理？</div>
         <div class="q q-star">最想解決什麼問題？</div>
       </div>
       <div class="sec">
         <div class="sec-title">通用問題（選問）</div>
-        <div class="q">遇過家長突然退班嗎？原因？</div>
-        <div class="q">考卷怎麼出的？花多少時間？</div>
-        <div class="q">怎麼知道哪個學生哪裡不會？</div>
-        <div class="q">用什麼數位工具？對 AI 的期待？</div>
+        <div class="q">用過什麼系統？為什麼沒繼續用？</div>
+        <div class="q">家長最常抱怨什麼？會生氣的是？</div>
       </div>
     </div>
     <div class="col">
       <div class="sec">
-        <div class="sec-title-outline">👥 團班專屬追問（挑 2-3 題）</div>
-        <div class="q">考完大概多久成績會出來？改卷花多少時間？</div>
-        <div class="q">有沒有請人幫忙改？還是老師自己改？</div>
-        <div class="q">考完會分析哪一題錯最多嗎？</div>
+        <div class="sec-title-outline">👥 團班專屬追問（v3 重寫）</div>
+        <div class="q q-new">考完之後成績怎麼發？是工讀生一個一個發 LINE 嗎？</div>
+        <div class="q q-new">考卷批改是老師改、學生互改、還是請人？</div>
+        <div class="q q-new">你們有自編的考卷/講義嗎？會擔心被別人拿走嗎？</div>
+        <div class="q q-new">家長報告要不要你審核再發？如果系統自動發你擔心什麼？</div>
         <div class="q">班上程度差很大時怎麼處理？</div>
-        <div class="q">回家作業全班一樣嗎？想過依程度出不同的嗎？</div>
-        <div class="q">家長怎麼知道小孩今天上了什麼、考幾分？</div>
+        <div class="q">如果系統每天省 1 小時老師時間，願意花多少錢？</div>
       </div>
       <div class="listen">
         <strong>你在聽什麼：</strong><br>
-        ・改卷時間成本有多痛？（如果還好就不是核心痛點）<br>
-        ・「差異化教學」是奢望還是已經在做？<br>
-        ・家長資訊不對稱是否造成退班？<br>
-        ・他願意讓學生用手機考試嗎？
+        ・行政零碎時間殺手在哪（發成績、寫聯絡簿、批改、記錄）<br>
+        ・自編題庫是資產還是包袱<br>
+        ・家長溝通 = 冷數據？還是要「溫度」？<br>
+        ・「過度回報弱點」疑慮是否普遍<br>
+        ・付費意願量級
       </div>
     </div>
   </div>
 
-  <div class="sec" style="margin-top:6px">
+  <div class="sec" style="margin-top:4px">
     <div class="sec-title-outline">快速紀錄區</div>
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">補習班名稱 / 主任姓名</div></div>
       <div class="record-field"><div class="record-field-label">學生數 / 班級數 / 每班人數</div></div>
+      <div class="record-field"><div class="record-field-label">紙本比例 + 辨識率疑慮</div></div>
+      <div class="record-field"><div class="record-field-label">自編題庫是否為資產？</div></div>
       <div class="record-field"><div class="record-field-label">最大痛點（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">意外發現</div></div>
+      <div class="record-field"><div class="record-field-label">付費意願量級</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>👥 團班補習班 ・ 正面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0 ・ 基於 Round 1 修正</span><span>👥 團班補習班 ・ 正面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -382,41 +460,47 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">👥</span>
-      <div><div class="hdr-title">團班補習班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">團班補習班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">背面 ・ 展示 + 收尾篇</div>
   </div>
 
+  <div class="core-banner">
+    <strong>◆ Demo 核心訊息：</strong>「您的題庫、您的數據 — 紙本拍照一鍵變成家長看得懂的報告，行政時間還給老師。」<br>
+    <strong>◆ 核心話術：</strong>老師花 <strong>10%</strong> 時間確認，其餘 <strong>90%</strong> 自動完成。
+  </div>
+
   <div class="sec">
-    <div class="sec-title">Demo 展示話術（手機開 → 團班補習班的一天）</div>
+    <div class="sec-title">Demo 展示話術（v3 調整 — 強調「還行政時間」與「題庫主權」）</div>
     <table class="demo-table">
       <tr><th>畫面</th><th>你說的話（10 秒內）</th></tr>
-      <tr><td>老師備課</td><td>「備課前就知道這班弱在哪，不用等考完才知道」</td></tr>
-      <tr><td>老師上課</td><td>「老師照常教學，完全不用改教法，系統在背後準備」</td></tr>
-      <tr><td>下課小考</td><td>「學生掃 QR Code 考試，30 秒自動改完全班」</td></tr>
-      <tr><td>即時成績</td><td>「哪一題全班最弱、誰低於 50 分，馬上就知道」</td></tr>
-      <tr><td>AI 派作業</td><td>「同一班，每個人回家練的題目不一樣，系統自動派」</td></tr>
-      <tr><td>家長報告</td><td>「家長當天就知道上了什麼、考了幾分、要練什麼」</td></tr>
-      <tr><td>班主任儀表板</td><td>「全部班級的狀況一個畫面看完」</td></tr>
+      <tr><td>紙本拍照批改</td><td>「考卷不用學生互改，拍一下系統 30 秒改完全班」</td></tr>
+      <tr><td>老師確認信心度低題</td><td>「手寫模糊的，系統標出來讓老師 2 秒勾選，不用逐題核對」</td></tr>
+      <tr><td>自編題庫匯入</td><td>「您的指標學校考卷拍照就進系統，隔離保護，不會被其他客戶看到」</td></tr>
+      <tr><td>主任審核報告</td><td>「家長報告出去前您先審核，要不要揭露弱點由您決定」</td></tr>
+      <tr><td>一鍵發成績單</td><td>「工讀生本來要 1 小時手動發 LINE，現在一個按鈕全發完」</td></tr>
+      <tr><td>主任儀表板</td><td>「哪個學生要退班、哪班弱點在哪，一個畫面看完」</td></tr>
     </table>
   </div>
 
   <div class="sec">
-    <div class="sec-title-outline">常見疑慮 & 回應</div>
+    <div class="sec-title-outline">常見疑慮 & 回應（前 2 題是必須準備好的 dealbreaker）</div>
     <table class="obj-table">
-      <tr><td>「學生用手機考試會作弊」</td><td>可以限時 + 亂序出題，比紙本還難抄。</td></tr>
-      <tr><td>「老師不想改教法」</td><td>老師完全不用改，系統只在考試和作業環節幫忙。</td></tr>
-      <tr><td>「家長會不會覺得資訊太多？」</td><td>報告很簡潔：上了什麼、考幾分、弱在哪、要練什麼。一分鐘看完。</td></tr>
-      <tr><td>「我們班太大（30+），可以嗎？」</td><td>越大班越有感，因為人工改卷省最多時間。</td></tr>
+      <tr class="top"><td>「辨識率準嗎？手寫辨識可靠嗎？」</td><td>選擇題答案卡 98%+。填充數字 80-95%。手寫過程先不處理。信心度低的題目會標出來讓老師 2 秒確認。</td></tr>
+      <tr class="top"><td>「會不會讓老師更累？」</td><td>老師只多一個動作——拍照。其他全自動。老師花 10% 確認，系統做 90%。</td></tr>
+      <tr><td>「初期設定是不是很繁瑣？」</td><td>第一天登錄完，第二天就看到省力效果。學生名單 Excel 一鍵匯入。</td></tr>
+      <tr><td>「你會不會把我的題庫拿去給別人用？」</td><td>每個客戶的題庫完全隔離，合約明文保護。您的自編題庫是您的資產。</td></tr>
+      <tr><td>「家長看到報告反而抱怨怎麼辦？」</td><td>報告發出前有主任審核介面，您可以勾選要揭露哪些弱點，或加備註加溫度。</td></tr>
+      <tr><td>「老師不想改變現有流程」</td><td>老師現在做什麼繼續做。唯一的改變：考卷改完拍一下上傳。其他都是系統的事。</td></tr>
     </table>
   </div>
 
   <div class="sec">
     <div class="sec-title">收尾話術</div>
     <div class="q-group">
-      <div class="q">如果他很有興趣：「免費讓你試一個月，挑一個班試試看？我們全部幫你設定好。」</div>
-      <div class="q">如果他有點猶豫：「我下次帶系統來，直接用你的一個班 demo 一次。」</div>
-      <div class="q">如果他沒興趣：「我了解。最後想請教——你覺得什麼樣的工具你會願意花錢用？」</div>
+      <div class="q">很有興趣：「免費讓你試一個月，挑一個班試試看。」</div>
+      <div class="q">有點猶豫：「我下次帶系統來，用你們這次的考卷 demo 一次。」</div>
+      <div class="q">沒興趣：「什麼樣的工具你會願意花錢用？」</div>
     </div>
   </div>
 
@@ -425,14 +509,14 @@ body {
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">產品反應（☐ 很有興趣 ☐ 有點興趣 ☐ 普通 ☐ 沒興趣）</div></div>
       <div class="record-field"><div class="record-field-label">願意 Pilot？（☐ 是 ☐ 考慮 ☐ 否）</div></div>
-      <div class="record-field"><div class="record-field-label">他提出的疑慮（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">下一步行動</div></div>
+      <div class="record-field"><div class="record-field-label">零碎時間殺手清單（原話）</div></div>
+      <div class="record-field"><div class="record-field-label">題庫焦慮是否存在？</div></div>
       <div class="record-field"><div class="record-field-label">信心分數（1-5）：＿＿ 原因：</div></div>
-      <div class="record-field"><div class="record-field-label">這次我學到了什麼？</div></div>
+      <div class="record-field"><div class="record-field-label">新發現 / 下一步</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>👥 團班補習班 ・ 背面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0</span><span>👥 團班補習班 ・ 背面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -442,60 +526,77 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">🌍</span>
-      <div><div class="hdr-title">兒童美語班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">兒童美語班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">正面 ・ 問題篇<br>訪談日期：＿＿＿＿</div>
   </div>
 
-  <div class="hypo"><strong>要驗證的假設：</strong>家長花了錢但看不到效果，不知道孩子英文學到哪裡；看不到效果是不續報的主因。</div>
+  <div class="core-banner">
+    <strong>◆ 第一輪 4/4 共識：</strong>紙本數位化 + 辨識率 / 老師負擔疑慮。<br>
+    <strong>◆ Round 1 修正：</strong>原假設「家長看不到效果」太抽象。001 乘究暴露具體痛點：聯絡條手動發、錄音逐一聽、老師改錯。問題要更具體。
+  </div>
+
+  <div class="hypo">
+    <span class="tag-v2">v3</span><strong>要驗證的核心假設：</strong>
+    （1）聯絡條寄送流程非常繁瑣（Word→截圖→LINE 手動發）；
+    （2）學生回家錄音檢查極耗人力（櫃檯逐一聽+手動蓋章）；
+    （3）老師改錯考卷是家長投訴的主要來源。
+  </div>
 
   <div class="cols">
     <div class="col">
       <div class="sec">
-        <div class="sec-title">通用問題（必問 4 題）</div>
-        <div class="q q-star">一天的流程長什麼樣？最煩什麼？</div>
-        <div class="q q-star">怎麼跟家長溝通學習狀況？</div>
-        <div class="q q-star">考完成績怎麼處理？</div>
+        <div class="sec-title-core">◆ 紙本數位化核心題（必問）</div>
+        <div class="q q-core">學生的小考、作業是不是 90% 都紙本？</div>
+        <div class="q q-core">如果能拍照自動批改，你最擔心什麼？<br>&emsp;&ensp;辨識兒童手寫英文準嗎？</div>
+        <div class="q q-core">老師每天花多少時間改小考、寫聯絡條？</div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">通用問題（必問 3 題）</div>
+        <div class="q q-star">一天的流程？最煩什麼？</div>
+        <div class="q q-star">續報率多少？不續報的原因？</div>
         <div class="q q-star">最想解決什麼問題？</div>
       </div>
       <div class="sec">
         <div class="sec-title">通用問題（選問）</div>
-        <div class="q">遇過家長突然不續報嗎？原因？</div>
-        <div class="q">怎麼知道哪個學生哪裡不會？</div>
-        <div class="q">用什麼數位工具？對 AI 的期待？</div>
+        <div class="q">用過什麼系統？為什麼沒繼續用？</div>
       </div>
     </div>
     <div class="col">
       <div class="sec">
-        <div class="sec-title-outline">🌍 美語專屬追問（挑 2-3 題）</div>
-        <div class="q">家長最常問你什麼？會問「我小孩英文到底怎麼樣」嗎？</div>
-        <div class="q">你們怎麼讓家長知道小孩的程度？成績單？等第？口頭？</div>
-        <div class="q">小朋友回家會複習英文嗎？家長會陪嗎？</div>
-        <div class="q">教兒童美語最大挑戰？聽力、口說、還是拼字？</div>
-        <div class="q">班上程度差異大嗎？跟不上的怎麼處理？</div>
-        <div class="q">續報率大概多少？不續報的原因通常是什麼？</div>
+        <div class="sec-title-outline">🌍 兒美專屬追問（v3 重寫 — 更具體）</div>
+        <div class="q q-new">你們聯絡條怎麼發？老師編 → 行政截圖 → LINE？花多少時間？</div>
+        <div class="q q-new">學生回家要錄音念課文嗎？怎麼檢查？誰聽？</div>
+        <div class="q q-new">老師改錯考卷被家長抗議過嗎？頻率多高？</div>
+        <div class="q q-new">外師的比例多高？流動率？</div>
+        <div class="q q-new">回家有集點機制嗎？怎麼發點數？</div>
+        <div class="q">若系統能自動評分學生錄音發音，你會用嗎？</div>
+        <div class="q">如果系統每天省 1 小時，願意花多少錢？</div>
       </div>
       <div class="listen">
         <strong>你在聽什麼：</strong><br>
-        ・「看不到效果」是不續報的主因嗎？<br>
-        ・家長對「回家練習」的態度（願意花 10 分鐘嗎？）<br>
-        ・老師對「聽說讀寫分開追蹤」有沒有概念？<br>
-        ・他怎麼看跟其他美語班的差異化？
+        ・「櫃檯逐一聽錄音」痛點是否普遍（驗證 001 發現）<br>
+        ・「老師改錯被抗議」頻率（驗證 001 發現）<br>
+        ・聯絡條流程的實際時間成本<br>
+        ・對 AI 語音評分的接受度<br>
+        ・付費意願量級
       </div>
     </div>
   </div>
 
-  <div class="sec" style="margin-top:6px">
+  <div class="sec" style="margin-top:4px">
     <div class="sec-title-outline">快速紀錄區</div>
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">補習班名稱 / 主任姓名</div></div>
-      <div class="record-field"><div class="record-field-label">學生數 / 班級數 / 年齡層</div></div>
+      <div class="record-field"><div class="record-field-label">學生數 / 老師數 / 外師比例</div></div>
+      <div class="record-field"><div class="record-field-label">紙本比例 + 辨識率疑慮</div></div>
+      <div class="record-field"><div class="record-field-label">錄音檢查 / 集點現況</div></div>
       <div class="record-field"><div class="record-field-label">最大痛點（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">意外發現</div></div>
+      <div class="record-field"><div class="record-field-label">付費意願量級</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>🌍 兒童美語班 ・ 正面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0 ・ 基於 Round 1 修正</span><span>🌍 兒童美語班 ・ 正面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -505,40 +606,47 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">🌍</span>
-      <div><div class="hdr-title">兒童美語班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">兒童美語班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">背面 ・ 展示 + 收尾篇</div>
   </div>
 
+  <div class="core-banner">
+    <strong>◆ Demo 核心訊息：</strong>「聯絡條自動化 + 錄音自動評分 — 老師和櫃檯省下來的時間，還給教學。」<br>
+    <strong>◆ 核心話術：</strong>老師花 <strong>10%</strong> 時間確認，其餘 <strong>90%</strong> 自動完成。
+  </div>
+
   <div class="sec">
-    <div class="sec-title">Demo 展示話術（手機開 → 兒童美語班的一天）</div>
+    <div class="sec-title">Demo 展示話術（v3 — 強調聯絡條 + 錄音兩大痛點）</div>
     <table class="demo-table">
       <tr><th>畫面</th><th>你說的話（10 秒內）</th></tr>
-      <tr><td>老師備課</td><td>「備課前就知道這班聽說讀寫哪個最弱」</td></tr>
-      <tr><td>上課互動</td><td>「老師照常教，系統當助教，不取代老師」</td></tr>
-      <tr><td>課堂小測</td><td>「小朋友覺得在玩遊戲，其實在考試，自動改」</td></tr>
-      <tr><td>即時結果</td><td>「哪個單字最多人拼錯，馬上就知道」</td></tr>
-      <tr><td>家長報告</td><td>「家長看到的是：今天學了什麼、哪些會了、回家練什麼」</td></tr>
-      <tr><td>班主任儀表板</td><td>「全部班的字彙量、續報率、家長使用率一目瞭然」</td></tr>
+      <tr><td>紙本拍照批改</td><td>「老師改完拍一下，系統自動統計，不怕漏改被家長抗議」</td></tr>
+      <tr><td>AI 語音評分</td><td>「學生回家錄音，系統自動評分，自動發點數——櫃檯不用逐一聽」</td></tr>
+      <tr><td>聯絡條自動化</td><td>「老師不用編 Word 給行政截圖，系統自動產出發 LINE」</td></tr>
+      <tr><td>四維雷達圖</td><td>「家長看到的是聽說讀寫四張圖，不是一個分數」</td></tr>
+      <tr><td>主任審核</td><td>「發出去之前您先看，要不要揭露弱點您決定」</td></tr>
+      <tr><td>主任儀表板</td><td>「全校續報率、家長滿意度一個畫面看完」</td></tr>
     </table>
   </div>
 
   <div class="sec">
-    <div class="sec-title-outline">常見疑慮 & 回應</div>
+    <div class="sec-title-outline">常見疑慮 & 回應（前 2 題是必須準備好的 dealbreaker）</div>
     <table class="obj-table">
-      <tr><td>「小朋友太小，不會用平板」</td><td>介面是遊戲化的，聽音選圖、拖拉字母，6 歲就會用。</td></tr>
-      <tr><td>「家長不會陪小孩練」</td><td>App 推播提醒，每天只要 10 分鐘。有用的家長續報率高 30%。</td></tr>
-      <tr><td>「我們有自己的教材體系」</td><td>系統配合你的教材，只是多一層數據追蹤，不取代教材。</td></tr>
-      <tr><td>「跟其他美語系統有什麼不同？」</td><td>我們追蹤到每個單字、每個能力維度，家長看得懂孩子英文程度。</td></tr>
+      <tr class="top"><td>「辨識率準嗎？兒童手寫英文會辨識錯嗎？」</td><td>選擇題和拼字答案卡 98%+。手寫字母用 AI 辨識 80-90%。信心度低的標出來讓老師 2 秒確認。</td></tr>
+      <tr class="top"><td>「會不會讓老師更累？」</td><td>老師只多一個動作——拍照。錄音由系統評分，老師完全不用聽。</td></tr>
+      <tr><td>「初期設定是不是很繁瑣？」</td><td>第一天登錄完，第二天就看到省力效果。</td></tr>
+      <tr><td>「小朋友不會用平板」</td><td>學生不用平板，一切走紙本和家長的 LINE。</td></tr>
+      <tr><td>「AI 語音評分準嗎？」</td><td>發音達到一定標準（如 80 分）就通過，標準您設定。跟人工聽比誤差很小。</td></tr>
+      <tr><td>「家長會不會覺得冷冰冰？」</td><td>報告有老師備註欄，加溫度還是靠您的老師。</td></tr>
     </table>
   </div>
 
   <div class="sec">
     <div class="sec-title">收尾話術</div>
     <div class="q-group">
-      <div class="q">如果他很有興趣：「免費讓你試一個月，挑一個班試試看？」</div>
-      <div class="q">如果他有點猶豫：「我下次帶系統來，用你的教材 demo 一次。」</div>
-      <div class="q">如果他沒興趣：「你覺得什麼工具能幫你提高續報率？」</div>
+      <div class="q">很有興趣：「免費讓你試一個月，挑一個班試試看。」</div>
+      <div class="q">有點猶豫：「我下次帶系統來，用你們的課文 demo 錄音評分。」</div>
+      <div class="q">沒興趣：「什麼樣的工具能幫你提高續報率？」</div>
     </div>
   </div>
 
@@ -547,14 +655,14 @@ body {
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">產品反應（☐ 很有興趣 ☐ 有點興趣 ☐ 普通 ☐ 沒興趣）</div></div>
       <div class="record-field"><div class="record-field-label">願意 Pilot？（☐ 是 ☐ 考慮 ☐ 否）</div></div>
-      <div class="record-field"><div class="record-field-label">他提出的疑慮（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">下一步行動</div></div>
+      <div class="record-field"><div class="record-field-label">錄音檢查痛點強度</div></div>
+      <div class="record-field"><div class="record-field-label">聯絡條流程時間成本</div></div>
       <div class="record-field"><div class="record-field-label">信心分數（1-5）：＿＿ 原因：</div></div>
-      <div class="record-field"><div class="record-field-label">這次我學到了什麼？</div></div>
+      <div class="record-field"><div class="record-field-label">新發現 / 下一步</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>🌍 兒童美語班 ・ 背面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0</span><span>🌍 兒童美語班 ・ 背面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -564,61 +672,78 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">🏠</span>
-      <div><div class="hdr-title">兒童安親班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">兒童安親班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">正面 ・ 問題篇<br>訪談日期：＿＿＿＿</div>
   </div>
 
-  <div class="hypo"><strong>要驗證的假設：</strong>2 小時改 15 人的作業是最大瓶頸；沒答案本時要自己解很痛；家長要作業正確率 + 成績進步。</div>
+  <div class="core-banner">
+    <strong>◆ 第一輪 4/4 共識：</strong>紙本數位化 + 辨識率 / 老師負擔疑慮。<br>
+    <strong>◆ Round 1 修正：</strong>004 好學的「2 小時改 15 人」是業界觀察不是現場驗證。安親業態 <strong>n=0</strong>，這是第一間純安親，務必刻意驗證。
+  </div>
+
+  <div class="hypo">
+    <span class="tag-v2">v3</span><strong>要驗證的核心假設（n=0，未驗證）：</strong>
+    （1）2 小時改 15 人作業是真瓶頸嗎？還是有其他更痛的事？
+    （2）學校老師自出考卷、家長自帶評量，沒答案本真的困擾嗎？
+    （3）家長最在意「作業正確率」、「成績進步」還是「安心感」？
+  </div>
 
   <div class="cols">
     <div class="col">
       <div class="sec">
-        <div class="sec-title">通用問題（必問 4 題）</div>
-        <div class="q q-star">一天的流程長什麼樣？最煩什麼？</div>
-        <div class="q q-star">怎麼跟家長溝通小孩的狀況？</div>
+        <div class="sec-title-core">◆ 紙本數位化核心題（必問）</div>
+        <div class="q q-core">學生的作業、考卷是不是 90% 都紙本？</div>
+        <div class="q q-core">如果能拍照自動批改，你最擔心什麼？<br>&emsp;&ensp;辨識準嗎？老師還要多做事嗎？</div>
+        <div class="q q-core">老師每天花多少時間改作業？</div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">通用問題（必問 3 題）</div>
+        <div class="q q-star">一天的流程？最煩什麼？</div>
         <div class="q q-star">家長最在意什麼？</div>
         <div class="q q-star">最想解決什麼問題？</div>
       </div>
       <div class="sec">
         <div class="sec-title">通用問題（選問）</div>
-        <div class="q">遇過家長突然不續報嗎？原因？</div>
-        <div class="q">用什麼數位工具？對 AI 的期待？</div>
-        <div class="q">最不想改變的工作習慣？</div>
+        <div class="q">用過什麼系統？為什麼沒繼續用？</div>
       </div>
     </div>
     <div class="col">
       <div class="sec">
-        <div class="sec-title-outline">🏠 安親專屬追問（挑 2-3 題）</div>
-        <div class="q">學生到班後大概的流程？先寫作業還是先點心？</div>
-        <div class="q">改作業大概花多少時間？15 個改完要多久？</div>
-        <div class="q">學校老師自出的考卷，沒答案本的多嗎？怎麼處理？</div>
-        <div class="q">家長會自己帶評量卷來嗎？你們也要幫忙改？</div>
-        <div class="q">學生作業寫完到家長來接，這段時間在做什麼？</div>
-        <div class="q">家長最在意什麼？作業寫完？搞懂？還是成績？</div>
-        <div class="q">怎麼跟家長回報？聯絡簿？LINE？口頭？</div>
+        <div class="sec-title-outline">🏠 安親專屬追問（v3 調整）</div>
+        <div class="q q-new">學生到班後流程？先寫作業還是先吃點心？</div>
+        <div class="q q-new">改作業花多久？15 個小孩改完要多久？</div>
+        <div class="q q-new">學校老師自出考卷沒答案本，你們怎麼處理？自己解？</div>
+        <div class="q q-new">家長會自己帶評量卷來要你們幫改嗎？</div>
+        <div class="q q-new">學生寫完到家長接之間，這段時間做什麼？</div>
+        <div class="q q-new">家長要作業「寫完」還是「真懂」還是「成績進步」？</div>
+        <div class="q">現在怎麼跟家長回報？聯絡簿？LINE？</div>
+        <div class="q">如果系統每天省 1 小時，願意花多少錢？</div>
       </div>
       <div class="listen">
         <strong>你在聽什麼：</strong><br>
-        ・批改時間壓力到底有多大？<br>
-        ・「沒答案本要自己解」多常發生？多痛？<br>
-        ・學生寫完發呆的時間有多長？是問題嗎？<br>
-        ・家長要的是「正確率」「進步」還是「安心感」？
+        ・改作業時間壓力真的存在嗎？還是其他更痛？<br>
+        ・「沒答案本要自己解」多常發生？<br>
+        ・學生寫完發呆是問題嗎？<br>
+        ・家長的真實期待<br>
+        ・付費意願量級
       </div>
     </div>
   </div>
 
-  <div class="sec" style="margin-top:6px">
+  <div class="sec" style="margin-top:4px">
     <div class="sec-title-outline">快速紀錄區</div>
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">安親班名稱 / 主任姓名</div></div>
-      <div class="record-field"><div class="record-field-label">學生數 / 老師數 / 年級範圍</div></div>
+      <div class="record-field"><div class="record-field-label">學生數 / 老師數 / 年級</div></div>
+      <div class="record-field"><div class="record-field-label">紙本比例 + 辨識率疑慮</div></div>
+      <div class="record-field"><div class="record-field-label">2 小時改 15 人假設是否成立？</div></div>
       <div class="record-field"><div class="record-field-label">最大痛點（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">意外發現</div></div>
+      <div class="record-field"><div class="record-field-label">付費意願量級</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>🏠 兒童安親班 ・ 正面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0 ・ 基於 Round 1 修正</span><span>🏠 兒童安親班 ・ 正面</span></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -628,40 +753,47 @@ body {
   <div class="hdr">
     <div class="hdr-left">
       <span class="hdr-icon">🏠</span>
-      <div><div class="hdr-title">兒童安親班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET</div></div>
+      <div><div class="hdr-title">兒童安親班 訪談提示卡</div><div class="hdr-sub">AI-TUTOR INTERVIEW CHEATSHEET v3</div></div>
     </div>
     <div class="hdr-side">背面 ・ 展示 + 收尾篇</div>
   </div>
 
+  <div class="core-banner">
+    <strong>◆ Demo 核心訊息：</strong>「拍一下就改完 — 沒答案本 AI 也能幫你解。老師負擔不變，家長看得見。」<br>
+    <strong>◆ 核心話術：</strong>老師花 <strong>10%</strong> 時間確認，其餘 <strong>90%</strong> 自動完成。
+  </div>
+
   <div class="sec">
-    <div class="sec-title">Demo 展示話術（手機開 → 安親班的一天）</div>
+    <div class="sec-title">Demo 展示話術（v3）</div>
     <table class="demo-table">
       <tr><th>畫面</th><th>你說的話（10 秒內）</th></tr>
       <tr><td>學生寫作業</td><td>「這邊跟你們現在一模一樣，不用改變任何流程」</td></tr>
-      <tr><td>拍照批改</td><td>「學生寫完拿給你，你拍一下，3 秒就改完」</td></tr>
-      <tr><td>AI 解題</td><td>「沒答案本的，AI 也能幫你解，30 秒出完整解答」</td></tr>
-      <tr><td>錯題加強</td><td>「改完的學生自動有練習題，不會發呆，也不佔你時間」</td></tr>
-      <tr><td>家長報告</td><td>「家長接小孩時 LINE 就收到了：寫了什麼、錯哪裡、進步了什麼」</td></tr>
-      <tr><td>班主任儀表板</td><td>「批改效率提升 5 倍，家長報告開啟率 91%，續報率一目瞭然」</td></tr>
+      <tr><td>紙本拍照批改</td><td>「學生寫完拿給你，拍一下，3 秒改完」</td></tr>
+      <tr><td>AI 幫老師解題</td><td>「沒答案本的考卷，AI 30 秒產出完整解答」</td></tr>
+      <tr><td>錯題自動加強</td><td>「改完的學生自動有練習題，不會發呆，也不佔你時間」</td></tr>
+      <tr><td>一鍵發報告</td><td>「家長接小孩時 LINE 就收到了」</td></tr>
+      <tr><td>主任審核</td><td>「發出去前您先審核，不讓過度報告引起家長反感」</td></tr>
     </table>
   </div>
 
   <div class="sec">
-    <div class="sec-title-outline">常見疑慮 & 回應</div>
+    <div class="sec-title-outline">常見疑慮 & 回應（前 2 題是必須準備好的 dealbreaker）</div>
     <table class="obj-table">
-      <tr><td>「老師會不會覺得多一件事？」</td><td>唯一多的就是「拍一下」，其他全自動。比現在改卷省很多。</td></tr>
-      <tr><td>「AI 改得準嗎？」</td><td>數學有標準答案 AI 很準。國語造句類的，AI 先改一輪老師確認。</td></tr>
-      <tr><td>「小朋友會不會只想玩平板？」</td><td>練習題有時間限制，做完就收。不是自由使用平板。</td></tr>
-      <tr><td>「家長會不會覺得太冷冰冰？」</td><td>報告最後有老師手寫備註欄，溫度還是老師給的。</td></tr>
+      <tr class="top"><td>「辨識率準嗎？小朋友字那麼亂」</td><td>選擇題答案卡 98%+。填充數字 80-95%。手寫模糊的會標出來讓老師 2 秒確認，不是全自動。</td></tr>
+      <tr class="top"><td>「老師會覺得多一件事嗎？」</td><td>唯一多的就是「拍一下」，其他全自動。比現在改卷省很多。</td></tr>
+      <tr><td>「沒答案本的考卷 AI 解得準嗎？」</td><td>數學題有標準解。國語類可能要老師再看一次，但已經省 80% 時間。</td></tr>
+      <tr><td>「小朋友會不會只想玩平板？」</td><td>練習題有時間限制，做完就收。不是自由使用。</td></tr>
+      <tr><td>「家長會不會覺得太冷冰冰？」</td><td>報告有老師手寫備註欄，溫度還是老師給的。</td></tr>
+      <tr><td>「初期設定是不是很繁瑣？」</td><td>第一天登錄完，第二天就見效。</td></tr>
     </table>
   </div>
 
   <div class="sec">
     <div class="sec-title">收尾話術</div>
     <div class="q-group">
-      <div class="q">如果他很有興趣：「免費讓你試一個月，挑一班試試看？全部幫你設定好。」</div>
-      <div class="q">如果他有點猶豫：「我下次帶系統來，拿你們今天的作業直接 demo 一次。」</div>
-      <div class="q">如果他沒興趣：「你覺得什麼工具能讓你的老師改作業更快？」</div>
+      <div class="q">很有興趣：「免費讓你試一個月，挑一班試試看。」</div>
+      <div class="q">有點猶豫：「我下次帶系統來，拿你們今天的作業直接 demo。」</div>
+      <div class="q">沒興趣：「什麼工具能讓你的老師改作業更快？」</div>
     </div>
   </div>
 
@@ -670,14 +802,14 @@ body {
     <div class="record-grid">
       <div class="record-field"><div class="record-field-label">產品反應（☐ 很有興趣 ☐ 有點興趣 ☐ 普通 ☐ 沒興趣）</div></div>
       <div class="record-field"><div class="record-field-label">願意 Pilot？（☐ 是 ☐ 考慮 ☐ 否）</div></div>
-      <div class="record-field"><div class="record-field-label">他提出的疑慮（原話）</div></div>
-      <div class="record-field"><div class="record-field-label">下一步行動</div></div>
+      <div class="record-field"><div class="record-field-label">改作業真的是最大瓶頸嗎？</div></div>
+      <div class="record-field"><div class="record-field-label">沒答案本頻率？</div></div>
       <div class="record-field"><div class="record-field-label">信心分數（1-5）：＿＿ 原因：</div></div>
-      <div class="record-field"><div class="record-field-label">這次我學到了什麼？</div></div>
+      <div class="record-field"><div class="record-field-label">安親業態 n=0 → 這次是否驗證？</div></div>
     </div>
   </div>
 
-  <div class="footer"><span>AI-Tutor 客戶訪談 v2.0</span><span>🏠 兒童安親班 ・ 背面</span></div>
+  <div class="footer"><span>AI-Tutor 客戶訪談 v3.0</span><span>🏠 兒童安親班 ・ 背面</span></div>
 </div>
 
 </body>
