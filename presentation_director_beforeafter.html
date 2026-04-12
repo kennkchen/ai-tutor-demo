@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>班主任的一週 — 手動 vs Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400&family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f1ea;
+  --paper: #ffffff;
+  --ink: #1c1814;
+  --ink-soft: #3a3530;
+  --ink-muted: #7a7068;
+  --ink-faint: #c4b8a8;
+  --cream: #ede5d8;
+  --cream-deep: #ddd2c0;
+  --warm-glow: #faf5ee;
+  --red: #c93a22;
+  --red-bg: #fef0ec;
+  --red-soft: #f9e4df;
+  --green: #1a7d5a;
+  --green-bg: #e8f7f0;
+  --green-soft: #d4f0e3;
+  --yellow: #b8870e;
+  --yellow-bg: #fef7e2;
+  --blue: #2860b0;
+  --indigo: #4a40d8;
+  --indigo-bg: #eeedfb;
+  --shadow-screen: 0 2px 8px rgba(28,24,20,0.06), 0 12px 36px rgba(28,24,20,0.10);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans TC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════ SLIDES ═══════ */
+.slide {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  position: relative;
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ═══════ COVER ═══════ */
+.cover {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 70%, rgba(201,58,34,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 30%, rgba(26,125,90,0.10) 0%, transparent 50%);
+}
+.cover .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 24px;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.cover-title {
+  font-family: 'Fraunces', serif;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.cover-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--red) 0%, #e8883d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cover-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+
+.cover-vs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0;
+}
+.cover-vs-side {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 100px;
+}
+.cover-vs-manual { background: rgba(201,58,34,0.2); color: #f0a090; }
+.cover-vs-agent { background: rgba(26,125,90,0.2); color: #80d0b0; }
+.cover-vs-x { font-family: 'Fraunces', serif; font-size: 20px; color: rgba(255,255,255,0.3); font-style: italic; }
+
+.cover-note {
+  font-size: 14px;
+  color: rgba(255,255,255,0.35);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: rgba(255,255,255,0.3);
+  animation: pulse-hint 2s ease-in-out infinite;
+}
+@keyframes pulse-hint {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.4; transform: translateX(-50%) translateY(4px); }
+}
+
+/* ═══════ SCENE HEADER ═══════ */
+.scene-header { text-align: center; }
+
+.cadence-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+.cadence-daily { background: var(--ink); color: var(--cream); }
+.cadence-weekly { background: var(--indigo); color: #fff; }
+.cadence-monthly { background: var(--yellow); color: #fff; }
+
+.scene-title {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+/* ═══════ BEFORE / AFTER SPLIT ═══════ */
+.ba-split {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ba-card {
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ba-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.ba-manual {
+  background: var(--red-bg);
+  border: 1px solid rgba(201,58,34,0.12);
+}
+.ba-manual::before { background: var(--red); }
+
+.ba-agent {
+  background: var(--green-bg);
+  border: 1px solid rgba(26,125,90,0.12);
+}
+.ba-agent::before { background: var(--green); }
+
+.ba-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.ba-manual .ba-label { color: var(--red); }
+.ba-agent .ba-label { color: var(--green); }
+
+.ba-steps {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.ba-steps .step-arrow {
+  color: var(--ink-faint);
+  margin: 0 4px;
+}
+
+.ba-time {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--cream-deep);
+}
+
+.ba-time-icon { font-size: 14px; }
+
+.ba-time-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  line-height: 1;
+}
+.ba-manual .ba-time-num { font-size: 32px; color: var(--red); }
+.ba-agent .ba-time-num { font-size: 32px; color: var(--green); }
+
+.ba-time-unit {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.ba-saved {
+  text-align: center;
+  padding: 10px 16px;
+  background: var(--ink);
+  border-radius: var(--radius-xs);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.ba-saved em {
+  color: #80d0b0;
+  font-style: normal;
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+}
+
+/* ═══════ BIG IMPACT SLIDE ═══════ */
+.impact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 8px 0;
+}
+
+.impact-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+
+.impact-row.manual {
+  background: var(--red-bg);
+  border-left: 5px solid var(--red);
+}
+.impact-row.agent {
+  background: var(--green-bg);
+  border-left: 5px solid var(--green);
+}
+.impact-row.saved {
+  background: var(--ink);
+  border-left: 5px solid #80d0b0;
+}
+
+.impact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  width: 50px;
+}
+.impact-row.manual .impact-label { color: var(--red); }
+.impact-row.agent .impact-label { color: var(--green); }
+.impact-row.saved .impact-label { color: #80d0b0; }
+
+.impact-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 800;
+  line-height: 1;
+}
+.impact-row.manual .impact-num { font-size: 48px; color: var(--red); }
+.impact-row.agent .impact-num { font-size: 48px; color: var(--green); }
+.impact-row.saved .impact-num { font-size: 48px; color: #80d0b0; }
+
+.impact-unit {
+  font-size: 14px;
+  margin-left: 4px;
+}
+.impact-row.manual .impact-unit { color: var(--ink-muted); }
+.impact-row.agent .impact-unit { color: var(--ink-muted); }
+.impact-row.saved .impact-unit { color: rgba(255,255,255,0.6); }
+
+.impact-note {
+  text-align: center;
+  font-size: 15px;
+  color: var(--ink-muted);
+  font-style: italic;
+  padding: 12px 16px;
+  background: var(--warm-glow);
+  border-radius: var(--radius-xs);
+  border-left: 3px solid var(--yellow);
+}
+
+/* ═══════ SUMMARY TABLE ═══════ */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-screen);
+}
+
+.summary-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 2px solid var(--cream);
+  background: var(--warm-glow);
+  color: var(--ink-muted);
+}
+.summary-table th:first-child { text-align: left; padding-left: 14px; }
+.summary-table th.manual-col { color: var(--red); }
+.summary-table th.agent-col { color: var(--green); }
+
+.summary-table td {
+  padding: 11px 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--cream);
+  color: var(--ink-soft);
+  vertical-align: middle;
+}
+.summary-table td:first-child {
+  text-align: left;
+  padding-left: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 12.5px;
+}
+
+.summary-table tr:last-child td { border-bottom: none; }
+
+.summary-table .total-row td {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  padding: 14px 10px;
+}
+.summary-table .total-row td:first-child { padding-left: 14px; }
+
+.td-manual { color: var(--red); font-weight: 600; }
+.td-agent { color: var(--green); font-weight: 600; }
+.td-saved { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); font-weight: 600; }
+
+.summary-callout {
+  text-align: center;
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--green-bg);
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(26,125,90,0.15);
+}
+.summary-callout-num {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--green);
+  line-height: 1.2;
+}
+.summary-callout-text {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+
+/* ═══════ CLOSING ═══════ */
+.closing {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 80%, rgba(26,125,90,0.12) 0%, transparent 50%);
+}
+.closing .slide-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  gap: 24px;
+}
+
+.closing-title {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.closing-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.closing-option {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+.co-icon { font-size: 28px; flex-shrink: 0; }
+.co-text {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.co-text strong { color: #fff; }
+
+.closing-cta {
+  display: inline-block;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #80d0b0, #1a7d5a);
+  border-radius: 100px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.5;
+  box-shadow: 0 6px 24px rgba(26,125,90,0.35);
+  text-align: center;
+}
+
+.closing-note {
+  font-size: 14px;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ═══════ NAV DOTS ═══════ */
+.nav-dots {
+  position: fixed;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+.nav-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+  opacity: 0.3;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-dot.active {
+  opacity: 1;
+  background: var(--ink);
+  transform: scale(1.4);
+}
+
+/* ═══════ ANIMATIONS ═══════ */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.slide-inner > * {
+  opacity: 0;
+  animation: fade-up 0.6s ease-out forwards;
+}
+.slide-inner > *:nth-child(1) { animation-delay: 0.1s; }
+.slide-inner > *:nth-child(2) { animation-delay: 0.2s; }
+.slide-inner > *:nth-child(3) { animation-delay: 0.3s; }
+.slide-inner > *:nth-child(4) { animation-delay: 0.4s; }
+
+.slide:not(.in-view) .slide-inner > * { opacity: 0; animation: none; }
+.slide.in-view .slide-inner > * { animation: fade-up 0.6s ease-out forwards; }
+
+@media (min-width: 768px) {
+  .slide-inner { max-width: 580px; }
+  .cover-title { font-size: 52px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ═══ SLIDE 0 — COVER ═══ -->
+<section class="slide cover" id="s0">
+  <div class="slide-inner">
+    <div class="cover-eyebrow">AI-Tutor · Agent-Native</div>
+    <h1 class="cover-title"><em>班主任的一週</em></h1>
+    <p class="cover-sub">同樣的工作，不同的時間</p>
+    <div class="cover-vs">
+      <span class="cover-vs-side cover-vs-manual">手動</span>
+      <span class="cover-vs-x">vs</span>
+      <span class="cover-vs-side cover-vs-agent">Agent</span>
+    </div>
+    <p class="cover-note">看 6 個虛擬員工如何幫您省下 80% 的行政時間</p>
+  </div>
+  <div class="scroll-hint">往下滑 ↓</div>
+</section>
+
+<!-- ═══ SLIDE 1 — TOTAL IMPACT ═══ -->
+<section class="slide" id="s1">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <h2 class="scene-title">每週省下 20 小時</h2>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-row manual">
+        <span class="impact-label">手動</span>
+        <span class="impact-num">25+</span>
+        <span class="impact-unit">小時 / 週<br>花在行政</span>
+      </div>
+      <div class="impact-row agent">
+        <span class="impact-label">Agent</span>
+        <span class="impact-num">5</span>
+        <span class="impact-unit">小時 / 週<br>確認就好</span>
+      </div>
+      <div class="impact-row saved">
+        <span class="impact-label">省下</span>
+        <span class="impact-num">20</span>
+        <span class="impact-unit">小時 / 週<br>= 每月多 80 小時</span>
+      </div>
+    </div>
+    <div class="impact-note">省下的時間，您可以多談 10 個家長、多招 5 個學生</div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 2 — 每天：排課調整 ═══ -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-daily">每天</div>
+      <h2 class="scene-title">排課調整</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">學生 LINE 請假 <span class="step-arrow">→</span> 手動查老師空檔 <span class="step-arrow">→</span> 手動找補課時段 <span class="step-arrow">→</span> 手動通知家長 <span class="step-arrow">→</span> 手動調課表</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">45-60</span>
+          <span class="ba-time-unit">分鐘 / 天<br><small style="color:var(--ink-faint)">每次 15-20 分 × 2-3 次</small></span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 🗓️ 排課管家</div>
+        <div class="ba-steps">學生 LINE 請假 <span class="step-arrow">→</span> 排課管家自動找 3 個時段 <span class="step-arrow">→</span> LINE 推送家長選擇 <span class="step-arrow">→</span> 自動排入課表</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">0</span>
+          <span class="ba-time-unit">分鐘<br><small style="color:var(--ink-faint)">主任只收到確認通知</small></span>
+        </div>
+      </div>
+      <div class="ba-saved">省下 <em>100%</em> — 排課管家全自動處理</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 3 — 每天：帳務扣堂 ═══ -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-daily">每天</div>
+      <h2 class="scene-title">帳務扣堂</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">老師回報完課 <span class="step-arrow">→</span> 主任開 Excel/米豆奶 <span class="step-arrow">→</span> 找到學生 <span class="step-arrow">→</span> 扣一堂 <span class="step-arrow">→</span> 檢查堂數</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">20-30</span>
+          <span class="ba-time-unit">分鐘 / 天<br><small style="color:var(--ink-faint)">每人 2-3 分 × 8-10 位</small></span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 💰 帳務管家</div>
+        <div class="ba-steps">完課 <span class="step-arrow">→</span> 帳務管家自動扣堂 <span class="step-arrow">→</span> 堂數 ≤3 自動 LINE 提醒家長續購</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">0</span>
+          <span class="ba-time-unit">分鐘<br><small style="color:var(--ink-faint)">完全自動</small></span>
+        </div>
+      </div>
+      <div class="ba-saved">省下 <em>100%</em> — 帳務管家自動扣堂 + 催繳</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 4 — 每天：家長報告 ═══ -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-daily">每天</div>
+      <h2 class="scene-title">家長報告 / 聯絡條</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">老師寫 Word 進度 <span class="step-arrow">→</span> 行政截圖 <span class="step-arrow">→</span> 私 LINE 逐一發<br><br>或：工讀生打開 LINE 官方帳號 <span class="step-arrow">→</span> 逐一複製貼上 <span class="step-arrow">→</span> 逐一發送</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">60-120</span>
+          <span class="ba-time-unit">分鐘 / 天</span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 💬 家長溝通師</div>
+        <div class="ba-steps">家長溝通師自動生成每位學生的個人化報告 <span class="step-arrow">→</span> 主任 3 分鐘審核 <span class="step-arrow">→</span> 一鍵全部發 LINE</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">3</span>
+          <span class="ba-time-unit">分鐘</span>
+        </div>
+      </div>
+      <div class="ba-saved">省下 <em>97%</em> — 從 2 小時 → 3 分鐘</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 5 — 每天：營運 Brief ═══ -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-daily">每天</div>
+      <h2 class="scene-title">營運掌握</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">主任靠腦袋記「誰請假、誰快到期、誰退步」<br><br>忙起來就忘了，等到家長問才想起來</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">0</span>
+          <span class="ba-time-unit">分鐘<br><small style="color:var(--red)">因為根本沒做，但風險巨大</small></span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 📊 營運顧問</div>
+        <div class="ba-steps">每天 08:00 LINE 推送 Brief：<br>・「今日 8 堂課、2 位請假已處理」<br>・「⚠️ 張小華連續 3 週下滑，建議致電」<br>・「💰 3 位堂數即將用完，已催繳」</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">2</span>
+          <span class="ba-time-unit">分鐘<br><small style="color:var(--green)">看 Brief + 獲得營運洞察</small></span>
+        </div>
+      </div>
+      <div class="ba-saved">從「沒做」到「<em>每天 2 分鐘掌握全局</em>」</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 6 — 每週：排課表 ═══ -->
+<section class="slide" id="s6">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-weekly">每週</div>
+      <h2 class="scene-title">下週排課表</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">打開空白課表 <span class="step-arrow">→</span> 逐一安排學生時段 <span class="step-arrow">→</span> 考慮老師空檔 <span class="step-arrow">→</span> 處理衝突 <span class="step-arrow">→</span> 重排 <span class="step-arrow">→</span> 通知</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">2-3</span>
+          <span class="ba-time-unit">小時 / 週</span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 🗓️ 排課管家</div>
+        <div class="ba-steps">每週日晚上自動產出排課建議<br>🟢 高信心=自動確認　🟡 有選項=主任選　🔴 排不進=主任調<br>確認 → 一鍵發布 → 老師家長 LINE 同時收到</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">5</span>
+          <span class="ba-time-unit">分鐘</span>
+        </div>
+      </div>
+      <div class="ba-saved">省下 <em>97%</em> — 從 3 小時 → 5 分鐘</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 7 — 每週：催繳 ═══ -->
+<section class="slide" id="s7">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-weekly">每週</div>
+      <h2 class="scene-title">帳務彙整 + 催繳</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">打開 Excel <span class="step-arrow">→</span> 逐一核對誰繳了誰沒繳 <span class="step-arrow">→</span> 手動 LINE 催繳 <span class="step-arrow">→</span> 記錄催繳狀態</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">1-2</span>
+          <span class="ba-time-unit">小時 / 週</span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 💰 帳務管家</div>
+        <div class="ba-steps">自動彙整 <span class="step-arrow">→</span> 未繳費自動 LINE 催繳（語氣委婉）<span class="step-arrow">→</span> 推送主任：「本週 2 筆未繳，已催」</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">5</span>
+          <span class="ba-time-unit">分鐘<br><small style="color:var(--ink-faint)">看摘要即可</small></span>
+        </div>
+      </div>
+      <div class="ba-saved">省下 <em>95%</em> — 帳務管家自動催繳</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 8 — 每月：對帳 ═══ -->
+<section class="slide" id="s8">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <div class="cadence-badge cadence-monthly">每月</div>
+      <h2 class="scene-title">對帳 + 報表</h2>
+    </div>
+    <div class="ba-split">
+      <div class="ba-card ba-manual">
+        <div class="ba-label">❌ 手動</div>
+        <div class="ba-steps">月底打開 Excel <span class="step-arrow">→</span> 逐筆核對收支 <span class="step-arrow">→</span> 異常要查 <span class="step-arrow">→</span> 做報表</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">4-8</span>
+          <span class="ba-time-unit">小時 / 月<br><small style="color:var(--ink-faint)">半天到一天</small></span>
+        </div>
+      </div>
+      <div class="ba-card ba-agent">
+        <div class="ba-label">✅ 💰 + 📊</div>
+        <div class="ba-steps">帳務管家自動月結 + 異常偵測<br>營運顧問生成月報：續報率、營收趨勢、老師利用率<br>主任 15 分鐘審核，異常才處理</div>
+        <div class="ba-time">
+          <span class="ba-time-icon">⏱</span>
+          <span class="ba-time-num">15</span>
+          <span class="ba-time-unit">分鐘</span>
+        </div>
+      </div>
+      <div class="ba-saved">省下 <em>97%</em> — 從半天 → 15 分鐘</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 9 — 總表 ═══ -->
+<section class="slide" id="s9">
+  <div class="slide-inner">
+    <div class="scene-header">
+      <h2 class="scene-title">時間對照總表</h2>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>工作項目</th>
+          <th class="manual-col">手動</th>
+          <th class="agent-col">Agent</th>
+          <th>省下</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>每日排課調整</td>
+          <td class="td-manual">45-60 分</td>
+          <td class="td-agent">0 分</td>
+          <td class="td-saved">100%</td>
+        </tr>
+        <tr>
+          <td>每日帳務扣堂</td>
+          <td class="td-manual">20-30 分</td>
+          <td class="td-agent">0 分</td>
+          <td class="td-saved">100%</td>
+        </tr>
+        <tr>
+          <td>每日家長報告</td>
+          <td class="td-manual">60-120 分</td>
+          <td class="td-agent">3 分</td>
+          <td class="td-saved">97%</td>
+        </tr>
+        <tr>
+          <td>每日營運 Brief</td>
+          <td class="td-manual" style="color:var(--ink-faint)">沒做</td>
+          <td class="td-agent">2 分</td>
+          <td class="td-saved">+洞察</td>
+        </tr>
+        <tr>
+          <td>每週排課</td>
+          <td class="td-manual">2-3 小時</td>
+          <td class="td-agent">5 分</td>
+          <td class="td-saved">97%</td>
+        </tr>
+        <tr>
+          <td>每週催繳</td>
+          <td class="td-manual">1-2 小時</td>
+          <td class="td-agent">5 分</td>
+          <td class="td-saved">95%</td>
+        </tr>
+        <tr>
+          <td>每月對帳報表</td>
+          <td class="td-manual">4-8 小時</td>
+          <td class="td-agent">15 分</td>
+          <td class="td-saved">97%</td>
+        </tr>
+        <tr class="total-row">
+          <td>週合計</td>
+          <td style="color:#f0a090;">25+ 小時</td>
+          <td style="color:#80d0b0;">~5 小時</td>
+          <td style="color:#80d0b0;">80%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="summary-callout">
+      <div class="summary-callout-num">每週省 20 小時 = 每月省 80 小時</div>
+      <div class="summary-callout-text">這些時間，足夠讓您多談 40 位家長</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 10 — CLOSING ═══ -->
+<section class="slide closing" id="s10">
+  <div class="slide-inner">
+    <div class="cover-eyebrow" style="color:var(--ink-faint)">省下的 20 小時</div>
+    <h2 class="closing-title">您會拿來<br>做什麼？</h2>
+    <div class="closing-options">
+      <div class="closing-option">
+        <span class="co-icon">🤝</span>
+        <span class="co-text"><strong>多談 10 個家長</strong><br>續報率提升</span>
+      </div>
+      <div class="closing-option">
+        <span class="co-icon">📣</span>
+        <span class="co-text"><strong>多做招生活動</strong><br>新生增加</span>
+      </div>
+      <div class="closing-option">
+        <span class="co-icon">☕</span>
+        <span class="co-text"><strong>準時下班</strong><br>生活品質</span>
+      </div>
+    </div>
+    <div>
+      <span class="closing-cta">先讓排課管家 + 帳務管家上班<br>第一天就見效</span>
+    </div>
+    <p class="closing-note">不是賣您軟體，是給您虛擬員工</p>
+  </div>
+</section>
+
+<script>
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+document.documentElement.style.scrollSnapType = 'none';
+window.scrollTo(0, 0);
+requestAnimationFrame(() => {
+  window.scrollTo(0, 0);
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollSnapType = 'y mandatory';
+  });
+});
+
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.getElementById('navDots');
+
+slides.forEach((_, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'nav-dot';
+  btn.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+  dotsContainer.appendChild(btn);
+});
+
+const dots = dotsContainer.querySelectorAll('.nav-dot');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      const idx = [...slides].indexOf(entry.target);
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+  });
+}, { threshold: 0.5 });
+
+slides.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
