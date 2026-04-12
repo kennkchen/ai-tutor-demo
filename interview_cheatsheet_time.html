@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>AI-Tutor 訪談提示卡 — 班主任時間對照版（通用）</title>
+<style>
+@page { size: A4; margin: 12mm 14mm; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  font-size: 10.5pt;
+  color: #1a1a1a;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  width: 210mm;
+  min-height: 275mm;
+  max-height: 275mm;
+  padding: 0;
+  page-break-after: always;
+  overflow: hidden;
+  position: relative;
+}
+.page:last-child { page-break-after: avoid; }
+
+.hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 2.5px solid #1a1a1a;
+  margin-bottom: 10px;
+}
+.hdr-left { display: flex; align-items: center; gap: 8px; }
+.hdr-icon { font-size: 20pt; }
+.hdr-title { font-size: 14pt; font-weight: 900; }
+.hdr-sub { font-size: 8pt; color: #888; letter-spacing: 1px; }
+.hdr-side { font-size: 8pt; color: #888; text-align: right; }
+
+.core-banner {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 9.5pt;
+  line-height: 1.55;
+}
+.core-banner strong { color: #ffd84d; font-weight: 800; }
+
+.sec { margin-bottom: 8px; }
+.sec-title-core {
+  font-size: 9.5pt;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+  background: #1a1a1a;
+  color: #ffd84d;
+}
+.sec-title-red {
+  font-size: 9.5pt;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+  background: #c93a22;
+  color: #fff;
+}
+.sec-title-green {
+  font-size: 9.5pt;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+  background: #1a7d5a;
+  color: #fff;
+}
+.sec-title-outline {
+  font-size: 9.5pt;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 5px;
+  border: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+}
+
+.q {
+  font-size: 9.5pt;
+  margin-bottom: 2px;
+  padding-left: 12px;
+  text-indent: -12px;
+  line-height: 1.45;
+}
+.q::before { content: '▸ '; font-weight: 700; }
+.q-star::before { content: '★ '; color: #c93a22; font-weight: 700; }
+.q-time::before { content: '⏱ '; color: #c49212; font-weight: 700; }
+
+.cols { display: flex; gap: 14px; }
+.col { flex: 1; }
+
+.listen {
+  background: #faf8f5;
+  border-left: 3px solid #ccc;
+  padding: 5px 10px;
+  margin-top: 4px;
+  font-size: 8.5pt;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ── TIME TABLE ── */
+.time-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.5pt;
+  margin-bottom: 8px;
+}
+.time-table th {
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 6px;
+  border-bottom: 1.5px solid #ddd;
+  text-align: center;
+  color: #888;
+}
+.time-table th:first-child { text-align: left; }
+.time-table th.col-manual { color: #c93a22; }
+.time-table th.col-agent { color: #1a7d5a; }
+
+.time-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  font-size: 8.5pt;
+}
+.time-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  font-size: 8.5pt;
+}
+.time-table .td-manual { color: #c93a22; font-weight: 600; }
+.time-table .td-agent { color: #1a7d5a; font-weight: 600; }
+.time-table .td-fill { border-bottom: 1px dotted #ccc; min-width: 40px; }
+
+.time-table .total-row td {
+  background: #1a1a1a;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  padding: 5px 6px;
+  font-size: 9pt;
+}
+
+/* ── DEMO TABLE ── */
+.demo-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+.demo-table th {
+  text-align: left;
+  padding: 3px 6px;
+  font-weight: 700;
+  font-size: 8pt;
+  color: #888;
+  border-bottom: 1px solid #ddd;
+}
+.demo-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+.demo-table td:first-child {
+  font-weight: 700;
+  white-space: nowrap;
+  width: 22%;
+}
+
+.obj-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+.obj-table td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+.obj-table td:first-child { font-weight: 600; width: 36%; }
+.obj-table td:last-child { color: #333; }
+.obj-table tr.top td { background: #fff8dc; font-weight: 600; }
+.obj-table tr.top td:first-child { color: #c93a22; }
+
+.record-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  font-size: 8.5pt;
+}
+.record-field {
+  border-bottom: 1px dotted #ccc;
+  padding: 3px 0;
+}
+.record-field-label { font-weight: 700; font-size: 7.5pt; color: #888; }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 7.5pt;
+  color: #bbb;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen {
+  body { background: #e0ddd8; padding: 20px; }
+  .page {
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    margin: 20px auto;
+    padding: 12mm 14mm;
+    border-radius: 4px;
+    position: relative;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     正面 — 問題篇：挖主任的「時間花在哪」
+     ══════════════════════════════════════════ -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-left">
+      <span class="hdr-icon">⏱</span>
+      <div><div class="hdr-title">班主任時間對照 訪談提示卡</div><div class="hdr-sub">DIRECTOR TIME · BEFORE vs AFTER</div></div>
+    </div>
+    <div class="hdr-side">正面 ・ 問題篇<br>訪談日期：＿＿＿＿<br>通用（不分業態）</div>
+  </div>
+
+  <div class="core-banner">
+    <strong>◆ 目標：</strong>挖出主任每天 / 每週 / 每月在「行政」上花多少時間，逐項量化，拿到前後對照的基礎數據。<br>
+    <strong>◆ 005 洪大哥：</strong>「主任有 <strong>50% 時間</strong>被行政綁死 — 排課、配對、帳務、催繳、發報告。」<br>
+    <strong>◆ 核心問法：</strong>先問「您一天的流程？」→ 再逐項追問「這件事花您多少時間？」
+  </div>
+
+  <div class="cols">
+    <div class="col">
+      <div class="sec">
+        <div class="sec-title-core">◆ 開場（暖場 + 總量）</div>
+        <div class="q q-star"><strong>您一天的工作流程大概長什麼樣？從幾點到幾點？</strong></div>
+        <div class="q q-star"><strong>如果把您的時間分成「教學/陪學生」跟「行政/雜事」，大概各佔幾成？</strong></div>
+        <div class="q q-time">行政裡面，最花時間的前三名是什麼？</div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title-red">❌ 每天的行政（逐項問時間）</div>
+        <div class="q q-time"><strong>排課/調課/請假處理</strong> — 學生請假或要換時段，您怎麼處理？每次花多久？一天幾次？</div>
+        <div class="q q-time"><strong>帳務/扣堂</strong> — 每位學生上完課，您怎麼記錄？扣堂怎麼算？用什麼工具？每天花多久？</div>
+        <div class="q q-time"><strong>家長報告/聯絡</strong> — 您怎麼跟家長回報今天上課狀況？用 LINE？聯絡簿？每天花多久？</div>
+        <div class="q q-time"><strong>成績發送</strong> — 考完試成績怎麼發給家長？手動發？一個一個發？花多久？</div>
+        <div class="q q-time"><strong>出缺勤管理</strong> — 學生沒來怎麼處理？通知家長？補課安排？</div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title-red">❌ 每週的行政</div>
+        <div class="q q-time"><strong>排下週課表</strong> — 每週排課花多久？用什麼工具？Excel？紙本？系統？</div>
+        <div class="q q-time"><strong>催繳</strong> — 有沒有定期催繳未繳費的家長？怎麼催？花多久？</div>
+        <div class="q q-time"><strong>營運檢討</strong> — 每週有看什麼數據或報表嗎？還是靠感覺？</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="sec">
+        <div class="sec-title-red">❌ 每月的行政</div>
+        <div class="q q-time"><strong>對帳</strong> — 月底怎麼對帳？用 Excel？花多久？</div>
+        <div class="q q-time"><strong>報表</strong> — 有做月報嗎？給誰看？花多久做？</div>
+        <div class="q q-time"><strong>續報追蹤</strong> — 怎麼追蹤哪些學生快到期？有系統提醒嗎？</div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title-green">✅ Agent 概念驗證</div>
+        <div class="q q-star"><strong>如果有一個系統像員工一樣，主動幫您排課、發報告、管帳，您只需確認他的工作，您覺得如何？</strong></div>
+        <div class="q q-star">您願意為一個「永遠不請假、不犯錯的虛擬助理」付多少錢？</div>
+        <div class="q q-star">如果行政時間降到每天 15 分鐘，多出來的時間您會做什麼？</div>
+      </div>
+
+      <div class="listen">
+        <strong>你在聽什麼：</strong><br>
+        ・每個項目的<strong>具體時間數字</strong>（這是 demo 前後對照的數據）<br>
+        ・哪個項目主任<strong>講到嘆氣或抱怨</strong>（情緒最強的 = 最痛）<br>
+        ・有沒有承認「其實沒在做」的項目（如營運報表）<br>
+        ・「虛擬員工」概念的接受度和付費意願<br>
+        ・省下時間會做什麼（連結到營收 = 定價依據）
+      </div>
+
+      <div class="sec" style="margin-top:6px">
+        <div class="sec-title-outline">快速紀錄：時間對照表</div>
+        <table class="time-table">
+          <thead>
+            <tr>
+              <th>工作項目</th>
+              <th class="col-manual">手動時間</th>
+              <th class="col-agent">可省？</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>每日：排課/請假</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr><td>每日：帳務/扣堂</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr><td>每日：家長報告</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr><td>每日：成績發送</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr><td>每週：排課表</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr><td>每週：催繳</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr><td>每月：對帳/報表</td><td class="td-fill"></td><td class="td-fill"></td></tr>
+            <tr class="total-row"><td>週合計</td><td>＿＿＿小時</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>AI-Tutor 訪談 ・ 班主任時間對照版</span><span>⏱ 通用版 ・ 正面</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     背面 — 展示篇：手動 vs Agent 對照 demo
+     ══════════════════════════════════════════ -->
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-left">
+      <span class="hdr-icon">⏱</span>
+      <div><div class="hdr-title">班主任時間對照 訪談提示卡</div><div class="hdr-sub">DIRECTOR TIME · BEFORE vs AFTER</div></div>
+    </div>
+    <div class="hdr-side">背面 ・ 展示 + 收尾篇</div>
+  </div>
+
+  <div class="core-banner">
+    <strong>◆ Demo：</strong>手機開 → kennkchen.github.io/ai-tutor-demo → 「班主任的一週：手動 vs Agent」<br>
+    <strong>◆ 話術：</strong>「您剛說排課每天花 ＿＿ 分鐘。我給您看，排課管家做了之後，您花 0 分鐘。」<br>
+    <strong>◆ 原則：</strong>用<strong>主任剛才自己說的時間數字</strong>做前後對照，不用我們的假設數字。
+  </div>
+
+  <div class="sec">
+    <div class="sec-title-core">Demo 展示話術（搭配手機滑動）</div>
+    <table class="demo-table">
+      <tr><th>頁面</th><th>你說的話（用主任剛才的數字）</th></tr>
+      <tr><td>總衝擊</td><td>「您剛說一天大概 ＿ 小時在行政。看這裡 — Agent 之後只剩 ＿ 小時確認」</td></tr>
+      <tr><td>每日排課</td><td>「您說請假處理每次 ＿ 分鐘。排課管家自動找補課時段，您只收到通知」</td></tr>
+      <tr><td>每日帳務</td><td>「帳務管家自動扣堂、自動催續購。您說的那 ＿ 分鐘全部省掉」</td></tr>
+      <tr><td>每日家長報告</td><td>「您現在 ＿ 分鐘發報告。家長溝通師寫好，您 3 分鐘審核一鍵發」</td></tr>
+      <tr><td>營運 Brief</td><td>「您說沒時間看報表。營運顧問每天 8 點 LINE 給您 Brief，2 分鐘看完」</td></tr>
+      <tr><td>每週排課</td><td>「您說排課花 ＿ 小時。排課管家排好等您確認，5 分鐘搞定」</td></tr>
+      <tr><td>總表</td><td>「加起來，每週省 ＿ 小時。一個月多出 ＿ 小時。」</td></tr>
+      <tr><td>Closing</td><td>「省下的時間，您可以多談幾個家長、多做招生、或準時下班。」</td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title-outline">常見疑慮 & 回應</div>
+    <table class="obj-table">
+      <tr class="top"><td>「這些數字太理想了吧？」</td><td>這是用您剛才告訴我的數字算的，不是我們編的。排課管家的 0 分鐘是因為它自動處理，您只收通知。</td></tr>
+      <tr class="top"><td>「跟米豆奶有什麼不同？」</td><td>米豆奶是空白表格等您填。我們是排課管家排好等您確認。工具 vs 虛擬員工，完全不同。</td></tr>
+      <tr><td>「初期設定繁瑣嗎？」</td><td>拍一張學生名單、拍一張課表就匯入。第一天就能用。</td></tr>
+      <tr><td>「AI 排課排得好嗎？」</td><td>根據學生偏好、老師空檔、歷史效果建議。您確認或微調。用越久越準。</td></tr>
+      <tr><td>「我已經有系統了」</td><td>可以並存。米豆奶管金流，我們管排課配對+溝通+營運洞察。不衝突。</td></tr>
+      <tr><td>「虛擬員工要多少錢？」</td><td>您剛說省下的時間會拿去談家長。多談 5 個家長 × 月費 ＿ = 月營收多 ＿。系統年費遠低於這個數字。</td></tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title-core">收尾話術</div>
+    <div style="font-size:9pt;line-height:1.5">
+      <div class="q">很有興趣：「先讓排課管家和帳務管家上班，第一天就見效。免費試一個月。」</div>
+      <div class="q">有點猶豫：「我下次帶系統來，用您現在的課表直接 demo 排課管家。」</div>
+      <div class="q">沒興趣：「最後想請教 — 如果能雇一個月薪 1 萬的虛擬助理幫您處理行政，您會考慮嗎？」</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title-outline">訪後紀錄（10 分鐘內填寫）</div>
+    <div class="record-grid">
+      <div class="record-field"><div class="record-field-label">補習班名稱 / 主任姓名 / 業態</div></div>
+      <div class="record-field"><div class="record-field-label">行政佔比（主任自述）＿＿ %</div></div>
+      <div class="record-field"><div class="record-field-label">最痛的行政項目（原話）</div></div>
+      <div class="record-field"><div class="record-field-label">每週行政合計時間（主任自述）</div></div>
+      <div class="record-field"><div class="record-field-label">虛擬員工概念接受度（☐ 高 ☐ 中 ☐ 低）</div></div>
+      <div class="record-field"><div class="record-field-label">省下時間會做什麼（原話）</div></div>
+      <div class="record-field"><div class="record-field-label">付費意願（原話 / 金額）</div></div>
+      <div class="record-field"><div class="record-field-label">信心分數（1-5）：＿＿ 原因：</div></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>AI-Tutor 訪談 ・ 班主任時間對照版</span><span>⏱ 通用版 ・ 背面</span></div>
+</div>
+
+</body>
+</html>
